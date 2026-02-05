@@ -1,0 +1,110 @@
+/* Mentor Profile Styles */
+
+.profilePage {
+    min-height: 100vh;
+    background-color: var(--color-bg);
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4);
+    background-color: var(--color-white);
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.backBtn {
+    text-decoration: none;
+    color: var(--color-primary);
+    font-weight: var(--font-medium);
+}
+
+.header h1 {
+    font-size: var(--text-lg);
+    margin: 0;
+}
+
+.main {
+    padding: var(--space-4);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.avatarSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+}
+
+.avatarLarge {
+    width: 100px;
+    height: 100px;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-family: var(--font-heading);
+    font-weight: var(--font-bold);
+}
+
+.formSection {
+    background-color: var(--color-white);
+    padding: var(--space-6);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+}
+
+.tag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-3);
+    background-color: var(--color-bg-secondary);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+}
+
+.removeTag {
+    border: none;
+    background: none;
+    color: var(--color-text-muted);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.removeTag:hover {
+    color: var(--color-error);
+}
+
+.addTagBtn {
+    padding: var(--space-1) var(--space-3);
+    background: none;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+}
+
+.addTagBtn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}

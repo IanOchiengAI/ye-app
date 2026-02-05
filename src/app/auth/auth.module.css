@@ -1,0 +1,374 @@
+/* Authentication Pages Styles */
+
+.authPage {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #1E1B4B 0%, #2D2A5E 50%, #1E1B4B 100%);
+    padding: var(--space-4);
+}
+
+.authContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    max-width: 1000px;
+    width: 100%;
+    background-color: var(--color-white);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-xl);
+    overflow: hidden;
+    min-height: 600px;
+}
+
+@media (max-width: 768px) {
+    .authContainer {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* === Brand Panel (Left) === */
+.brandPanel {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+    color: var(--color-white);
+    padding: var(--space-8);
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 768px) {
+    .brandPanel {
+        padding: var(--space-6);
+    }
+}
+
+.logo {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    text-decoration: none;
+    margin-bottom: var(--space-8);
+}
+
+.logoText {
+    color: var(--color-yellow);
+    font-style: italic;
+}
+
+.logoAccent {
+    color: var(--color-white);
+}
+
+.logoIcon {
+    font-size: var(--text-2xl);
+}
+
+.brandContent {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.brandContent h1 {
+    color: var(--color-white);
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-4);
+}
+
+.brandContent>p {
+    font-size: var(--text-lg);
+    opacity: 0.9;
+    line-height: 1.7;
+    margin-bottom: var(--space-6);
+}
+
+.features {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--text-base);
+}
+
+.feature span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+}
+
+.testimonial {
+    margin-top: var(--space-8);
+    padding: var(--space-4);
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+}
+
+.testimonial p {
+    font-style: italic;
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-2);
+}
+
+.testimonial span {
+    font-size: var(--text-sm);
+    opacity: 0.8;
+}
+
+.safetyInfo {
+    margin-top: var(--space-6);
+    padding: var(--space-4);
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+}
+
+.safetyInfo h3 {
+    color: var(--color-white);
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-3);
+}
+
+.safetyInfo ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.safetyInfo li {
+    padding: var(--space-2) 0;
+    padding-left: var(--space-4);
+    position: relative;
+    font-size: var(--text-sm);
+    opacity: 0.9;
+}
+
+.safetyInfo li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+}
+
+/* === Form Panel (Right) === */
+.formPanel {
+    padding: var(--space-8);
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 768px) {
+    .formPanel {
+        padding: var(--space-6);
+    }
+}
+
+.formHeader {
+    margin-bottom: var(--space-6);
+}
+
+.formHeader h2 {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-2);
+}
+
+.formHeader p {
+    color: var(--color-text-secondary);
+    margin: 0;
+}
+
+.formHeader a {
+    color: var(--color-primary);
+    font-weight: var(--font-medium);
+}
+
+/* Auth Toggle */
+.authToggle {
+    display: flex;
+    background-color: var(--color-bg-secondary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-1);
+    margin-bottom: var(--space-6);
+}
+
+.toggleBtn {
+    flex: 1;
+    padding: var(--space-3);
+    border: none;
+    background: none;
+    font-family: var(--font-heading);
+    font-weight: var(--font-medium);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+}
+
+.toggleBtn.active {
+    background-color: var(--color-white);
+    color: var(--color-primary);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Form */
+.form {
+    flex: 1;
+}
+
+.passwordHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.forgotLink {
+    font-size: var(--text-sm);
+    color: var(--color-primary);
+}
+
+.ageNotice {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+    padding: var(--space-3);
+    background-color: rgba(255, 214, 107, 0.2);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    color: var(--color-text);
+}
+
+.checkError {
+    color: var(--color-error);
+}
+
+.inputHint {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-top: var(--space-1);
+}
+
+.optional {
+    font-weight: var(--font-normal);
+    color: var(--color-text-muted);
+}
+
+.consentSection {
+    margin: var(--space-6) 0;
+    padding: var(--space-4);
+    background-color: var(--color-bg);
+    border-radius: var(--radius-lg);
+}
+
+/* Divider */
+.divider {
+    display: flex;
+    align-items: center;
+    margin: var(--space-6) 0;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background-color: var(--color-border);
+}
+
+.divider span {
+    padding: 0 var(--space-4);
+}
+
+/* Social Buttons */
+.socialButtons {
+    display: flex;
+    gap: var(--space-3);
+}
+
+.socialBtn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+}
+
+/* Footer */
+.footerText {
+    margin-top: var(--space-6);
+    text-align: center;
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+}
+
+.backLink {
+    margin-top: var(--space-4);
+    text-align: center;
+}
+
+.backLink a {
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+}
+
+.backLink a:hover {
+    color: var(--color-primary);
+}
+
+/* === Centered Content (Verification/Success) === */
+.centeredContent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: var(--space-8);
+}
+
+.verificationCard,
+.successCard {
+    text-align: center;
+    max-width: 400px;
+}
+
+.iconLarge {
+    font-size: 4rem;
+    margin-bottom: var(--space-4);
+}
+
+.verificationCard h2,
+.successCard h2 {
+    margin-bottom: var(--space-4);
+}
+
+.verificationCard p,
+.successCard p {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-4);
+}
+
+.subtext {
+    font-size: var(--text-sm);
+}
+
+.waitingText {
+    margin-top: var(--space-4);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+}
+
+.verificationCard .loader {
+    margin: var(--space-6) auto 0;
+}
