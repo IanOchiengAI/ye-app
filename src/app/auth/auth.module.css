@@ -51,11 +51,13 @@
     font-weight: var(--font-bold);
     text-decoration: none;
     margin-bottom: var(--space-8);
-    color: var(--color-yellow);
+    color: #FFD66B;
+    /* Hardcoded bright yellow for visibility */
 }
 
 .logoText {
-    color: var(--color-yellow);
+    color: #FFD66B;
+    /* Hardcoded bright yellow */
     font-style: italic;
 }
 

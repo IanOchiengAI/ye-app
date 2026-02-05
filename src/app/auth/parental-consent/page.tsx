@@ -101,6 +101,14 @@ export default function ParentalConsentPage() {
                     setStep('success');
                 } catch (error: any) {
                     console.error('Auto-signup error:', error);
+
+                    // IF account exists (likely retrying), just proceed for demo
+                    if (error.message && error.message.includes('exists')) {
+                        console.log('Account exists, proceeding as success for demo.');
+                        setStep('success');
+                        return;
+                    }
+
                     setErrors({ general: (error as Error).message || 'Failed to finalize account creation.' });
                     setStep('form');
                     setLoading(false);
