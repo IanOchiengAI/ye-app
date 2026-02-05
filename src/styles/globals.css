@@ -505,3 +505,27 @@ a:hover {
 .animate-slide-up {
   animation: slide-up 0.6s ease-out forwards;
 }
+
+/* Button Micro-interactions */
+.btn:active,
+button:active {
+  transform: scale(0.98);
+  transition: transform 0.1s ease;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #ffffff;
+  animation: spin 1s ease-in-out infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

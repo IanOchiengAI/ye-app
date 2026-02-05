@@ -1,9 +1,12 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import styles from './modules.module.css';
 import { CORE_MODULES } from '@/lib/data/modules';
 import { Module } from '@/lib/types';
+import CelebrationAnimation from '@/components/ui/CelebrationAnimation';
+import Toast from '@/components/ui/Toast';
 
 // Kid-friendly educational images featuring African students learning
 const MODULE_IMAGES: Record<string, string> = {
@@ -53,6 +56,15 @@ export default function ModulesPage() {
     const completedModuleIds: string[] = [];
     const currentModuleId = '1';
 
+    // Celebration State
+    const [showCelebration, setShowCelebration] = useState(false);
+    const [showToast, setShowToast] = useState(false);
+
+    const handleSimulateComplete = () => {
+        setShowCelebration(true);
+        setTimeout(() => setShowToast(true), 1000);
+    };
+
     const getModuleStatus = (module: Module) => {
         if (completedModuleIds.includes(module.id)) return 'completed';
         if (module.id === currentModuleId) return 'in-progress';
@@ -78,11 +90,30 @@ export default function ModulesPage() {
                     <BackIcon />
                 </Link>
                 <div className={styles.headerContent}>
-                    <h1>Life Skills Modules</h1>
+                    <h1>Build Your Life Skills, One Step at a Time</h1>
                     <p className={styles.headerSubtitle}>Master essential skills for success</p>
                 </div>
-                <div className={styles.headerSpacer} />
+                <div className={styles.headerSpacer}>
+                    <button
+                        onClick={handleSimulateComplete}
+                        className="btn btn-primary text-xs"
+                        style={{ background: 'var(--color-success)', border: 'none' }}
+                    >
+                        Demo: Finish Module
+                    </button>
+                </div>
             </header>
+
+            {/* Celebration Components */}
+            <CelebrationAnimation
+                isActive={showCelebration}
+                onComplete={() => setShowCelebration(false)}
+            />
+            <Toast
+                message="Nice work! ✨ Keep the momentum going."
+                isVisible={showToast}
+                onClose={() => setShowToast(false)}
+            />
 
             <main className={styles.main}>
                 {/* Progress Overview */}

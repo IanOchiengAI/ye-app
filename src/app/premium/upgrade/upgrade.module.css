@@ -1,0 +1,291 @@
+.page {
+    min-height: 100vh;
+    background: #f8fafc;
+    padding: 2rem 1rem;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.backLink {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.header h1 {
+    color: var(--color-primary);
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.header p {
+    color: var(--color-text-secondary);
+    font-size: 1.1rem;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    .grid {
+        grid-template-columns: 1fr 1.1fr;
+        /* Premium card slightly wider */
+        align-items: center;
+    }
+}
+
+.card {
+    background: white;
+    border-radius: 20px;
+    padding: 2.5rem;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.freeCard {
+    border: 1px solid #e2e8f0;
+}
+
+.premiumCard {
+    border: 2px solid var(--color-coral);
+    box-shadow: 0 20px 40px rgba(255, 122, 89, 0.15);
+    transform: scale(1.02);
+    z-index: 10;
+}
+
+.badge {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-coral);
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 10px rgba(255, 122, 89, 0.3);
+}
+
+.cardHeader {
+    text-align: center;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 1.5rem;
+}
+
+.cardHeader h2 {
+    font-size: 1.5rem;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+}
+
+.price {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--color-primary);
+}
+
+.price small {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    font-weight: 500;
+}
+
+.features {
+    list-style: none;
+    margin: 0 0 2rem 0;
+    padding: 0;
+}
+
+.features li {
+    padding: 0.75rem 0;
+    font-size: 1.05rem;
+    color: var(--color-text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.currentPlan {
+    text-align: center;
+    background: #f1f5f9;
+    padding: 1rem;
+    border-radius: 10px;
+    font-weight: 700;
+    color: var(--color-text-muted);
+}
+
+.upgradeBtn {
+    width: 100%;
+    background: var(--gradient-primary);
+    /* Use Primary gradient for trust, or Coral for punch? Request said Coral Accents */
+    background: linear-gradient(135deg, #FF7A59 0%, #FF9E85 100%);
+    color: white;
+    border: none;
+    padding: 1.2rem;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 10px 20px rgba(255, 122, 89, 0.25);
+}
+
+.upgradeBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px rgba(255, 122, 89, 0.35);
+}
+
+.impactNote {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--color-primary);
+    font-weight: 600;
+    background: rgba(255, 215, 0, 0.15);
+    /* Subtle yellow bg */
+    padding: 0.75rem;
+    border-radius: 8px;
+}
+
+.tierLabel {
+    display: inline-block;
+    background: #e2e8f0;
+    color: #64748b;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: 1px;
+}
+
+.tierLabelPremium {
+    display: inline-block;
+    background: linear-gradient(135deg, #FF7A59 0%, #FF9E85 100%);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: 1px;
+}
+
+.tierDesc {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.checkBlue {
+    color: var(--color-primary);
+    font-weight: bold;
+}
+
+.checkCoral {
+    color: var(--color-coral);
+}
+
+/* Social Proof */
+.socialProof {
+    margin-top: 4rem;
+    text-align: center;
+}
+
+.socialProof h3 {
+    color: var(--color-primary);
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+}
+
+.testimonials {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.testimonial {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    text-align: left;
+}
+
+.testimonial p {
+    color: var(--color-text);
+    font-style: italic;
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+}
+
+.testimonial span {
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+/* FAQ */
+.faq {
+    margin-top: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.faq h3 {
+    text-align: center;
+    color: var(--color-primary);
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+}
+
+.faqGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.faqItem {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.faqItem h4 {
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.faqItem p {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0;
+}

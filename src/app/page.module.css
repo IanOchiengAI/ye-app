@@ -129,7 +129,7 @@
 
 .heroTitle {
     font-size: 4rem;
-    font-weight: 850;
+    font-weight: 900;
     line-height: 1.05;
     color: var(--color-primary);
     letter-spacing: -0.02em;
@@ -254,7 +254,7 @@
 
 .statNumber {
     font-size: 3.5rem;
-    font-weight: 850;
+    font-weight: 900;
     color: var(--color-yellow);
     margin-bottom: 0.5rem;
 }
@@ -279,7 +279,7 @@
 
 .sectionTitle {
     font-size: 3.5rem;
-    font-weight: 850;
+    font-weight: 900;
     color: var(--color-primary);
     margin-bottom: 1.5rem;
 }
@@ -434,7 +434,7 @@
 
 .ctaContent h2 {
     font-size: 4rem;
-    font-weight: 850;
+    font-weight: 900;
     color: var(--color-primary);
     margin-bottom: 1.5rem;
 }

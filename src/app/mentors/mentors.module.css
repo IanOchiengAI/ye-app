@@ -144,6 +144,7 @@
     height: 60px;
     background-color: var(--color-bg-secondary);
     border-radius: var(--radius-full);
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -178,13 +179,43 @@
     color: var(--color-primary);
     font-weight: var(--font-medium);
     margin: var(--space-1) 0 var(--space-3);
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.storySection,
+.funFactSection {
+    margin-bottom: 1.25rem;
+}
+
+.storySection h4,
+.funFactSection h4 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: #64748b;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
 }
 
 .bio {
     font-size: var(--text-sm);
     color: var(--color-text-secondary);
-    margin-bottom: var(--space-4);
-    line-height: 1.5;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.funFactSection p {
+    font-size: var(--text-sm);
+    color: var(--color-text);
+    background: #fff8e1;
+    /* Subtle yellow bg */
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin: 0;
+    font-weight: 500;
+    border-left: 3px solid #FFD700;
 }
 
 .tags {

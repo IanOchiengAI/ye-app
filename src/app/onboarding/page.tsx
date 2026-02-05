@@ -152,9 +152,9 @@ export default function OnboardingPage() {
                     {currentStep === 0 && (
                         <div className={styles.step}>
                             <div className={styles.stepNumber}>01</div>
-                            <h1>Let&apos;s Get to Know You</h1>
+                            <h1>Karibu! Welcome to Youth Educated.</h1>
                             <p className={styles.stepDescription}>
-                                Tell us a bit about yourself so we can personalize your experience.
+                                Your journey to build your future starts now. Tell us a bit about yourself so we can personalize your path.
                             </p>
 
                             <div className={styles.formGroup}>
@@ -228,13 +228,20 @@ export default function OnboardingPage() {
                     {currentStep === 2 && (
                         <div className={styles.step}>
                             <div className={styles.stepNumber}>03</div>
-                            <h1>What Do You Want to Achieve?</h1>
+                            <h1>What do you want to build?</h1>
                             <p className={styles.stepDescription}>
-                                Select your goals and we&apos;ll help you work towards them.
+                                Choose a few goals. We&apos;ll personalize your journey.
                             </p>
 
                             <div className={styles.optionsGrid}>
-                                {GOALS.map(goal => (
+                                {[
+                                    { id: 'career', label: 'Career Growth' },
+                                    { id: 'grades', label: 'Better Grades' },
+                                    { id: 'confidence', label: 'Confidence' },
+                                    { id: 'leadership', label: 'Leadership Skills' },
+                                    { id: 'financial', label: 'Financial Freedom' },
+                                    { id: 'relationships', label: 'Healthy Relationships' },
+                                ].map(goal => (
                                     <button
                                         key={goal.id}
                                         type="button"
@@ -259,38 +266,18 @@ export default function OnboardingPage() {
                         </div>
                     )}
 
-                    {/* Step 3: Mentor Preferences */}
+                    {/* Step 3: Mentor Preferences - Keeping this but refining copy slightly if needed */}
                     {currentStep === 3 && (
                         <div className={styles.step}>
                             <div className={styles.stepNumber}>04</div>
-                            <h1>Your Ideal Mentor</h1>
+                            <h1>You&apos;re all set! ✨</h1>
                             <p className={styles.stepDescription}>
-                                Help us find the perfect mentor for you. These are optional preferences.
+                                We&apos;re so excited to have you in the Youth Educated family.
                             </p>
 
-                            <div className={styles.preferencesContainer}>
-                                {MENTOR_PREFS.map(pref => (
-                                    <label key={pref.id} className={styles.preferenceItem}>
-                                        <input
-                                            type="checkbox"
-                                            checked={formData.mentorPreferences.includes(pref.id)}
-                                            onChange={() => toggleSelection('mentorPreferences', pref.id)}
-                                        />
-                                        <span className={styles.preferenceCheck}>
-                                            {formData.mentorPreferences.includes(pref.id) && (
-                                                <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
-                                                    <path d="M1 5L4.5 8.5L11 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                                </svg>
-                                            )}
-                                        </span>
-                                        <span>{pref.label}</span>
-                                    </label>
-                                ))}
-                            </div>
-
                             <div className={styles.readyCard}>
-                                <h3>You&apos;re Ready to Go</h3>
-                                <p>After this, you&apos;ll land on your personal dashboard where you can start learning and connect with mentors.</p>
+                                <h3>Ready to Start?</h3>
+                                <p>We&apos;ve customized a learning path just for you. Your dashboard is waiting.</p>
                             </div>
                         </div>
                     )}

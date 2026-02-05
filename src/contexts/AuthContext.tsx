@@ -28,6 +28,7 @@ export interface UserProfile {
     createdAt: Date;
     // Subscription tier
     subscription?: 'free' | 'premium' | 'sponsor';
+    assignedMentorId?: string;
     // Mentor specific fields
     status?: 'active' | 'pending' | 'rejected';
     profession?: string;
@@ -58,36 +59,38 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     // Listen to auth state changes
     useEffect(() => {
-        // Build-time check for Firebase - optional
-        const isMockEnv = process.env.NODE_ENV === 'development' && !process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
+        // Optimistic load from localStorage for instant UI
+        const storedUser = localStorage.getItem('ye_user');
+        const storedProfile = localStorage.getItem('ye_profile');
 
-        if (isMockEnv) {
-            console.log('Using Mock Auth Provider');
-
-            // Check for existing session in localStorage
-            const storedUser = localStorage.getItem('ye_mock_user');
-            const storedProfile = localStorage.getItem('ye_mock_profile');
-
-            if (storedUser && storedProfile) {
+        if (storedUser && storedProfile) {
+            try {
                 setUser(JSON.parse(storedUser));
                 setProfile(JSON.parse(storedProfile));
+                setLoading(false);
+            } catch (e) {
+                console.error("Error parsing stored auth:", e);
+                localStorage.removeItem('ye_user');
+                localStorage.removeItem('ye_profile');
             }
-
-            setLoading(false);
-            return;
         }
 
         const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-            setUser(firebaseUser);
-
             if (firebaseUser) {
+                // Update local storage with fresh user
+                localStorage.setItem('ye_user', JSON.stringify(firebaseUser));
+                setUser(firebaseUser);
+
                 // Fetch user profile from Firestore
                 try {
                     const profileDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
                     if (profileDoc.exists()) {
-                        setProfile(profileDoc.data() as UserProfile);
+                        const userProfile = profileDoc.data() as UserProfile;
+                        setProfile(userProfile);
+                        // Sync profile to local storage
+                        localStorage.setItem('ye_profile', JSON.stringify(userProfile));
                     } else {
-                        // If no profile exists (e.g. newly created via Firebase console manually), create basic one
+                        // Create basic profile if missing
                         const newProfile: UserProfile = {
                             uid: firebaseUser.uid,
                             email: firebaseUser.email,
@@ -99,13 +102,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                             createdAt: new Date(),
                         };
                         setProfile(newProfile);
+                        localStorage.setItem('ye_profile', JSON.stringify(newProfile));
                     }
                 } catch (error) {
                     console.error("Error fetching profile:", error);
-                    // Fallback or retry logic could go here
                 }
             } else {
+                // Clear state and storage on logout
+                setUser(null);
                 setProfile(null);
+                localStorage.removeItem('ye_user');
+                localStorage.removeItem('ye_profile');
             }
 
             setLoading(false);
@@ -146,8 +153,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 setUser(mockUser);
                 setProfile(mockProfile);
 
-                localStorage.setItem('ye_mock_user', JSON.stringify(mockUser));
-                localStorage.setItem('ye_mock_profile', JSON.stringify(mockProfile));
+                localStorage.setItem('ye_user', JSON.stringify(mockUser));
+                localStorage.setItem('ye_profile', JSON.stringify(mockProfile));
                 return;
             }
 
@@ -175,6 +182,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             });
 
             setProfile(newProfile);
+            localStorage.setItem('ye_profile', JSON.stringify(newProfile));
         } catch (err: unknown) {
             const errorMessage = err instanceof Error ? err.message : 'Failed to sign up';
             setError(errorMessage);
@@ -216,8 +224,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 setUser(mockUser);
                 setProfile(mockProfile);
 
-                localStorage.setItem('ye_mock_user', JSON.stringify(mockUser));
-                localStorage.setItem('ye_mock_profile', JSON.stringify(mockProfile));
+                localStorage.setItem('ye_user', JSON.stringify(mockUser));
+                localStorage.setItem('ye_profile', JSON.stringify(mockProfile));
                 return;
             }
 
@@ -231,21 +239,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     // Sign out
     const logOut = async () => {
-        const isMockEnv = process.env.NODE_ENV === 'development' && !process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
-
         try {
             setError(null);
 
-            if (isMockEnv) {
-                setUser(null);
-                setProfile(null);
-                localStorage.removeItem('ye_mock_user');
-                localStorage.removeItem('ye_mock_profile');
-                return;
-            }
+            // Clear ALL localStorage keys
+            localStorage.removeItem('ye_user');
+            localStorage.removeItem('ye_profile');
+            // Cleanup legacy mock keys if they exist
+            localStorage.removeItem('ye_mock_user');
+            localStorage.removeItem('ye_mock_profile');
 
-            await signOut(auth);
+            // Clear React state
+            setUser(null);
             setProfile(null);
+
+            // Attempt Firebase signOut if initialized
+            try {
+                await signOut(auth);
+            } catch {
+                // Ignore if Firebase not initialized (mock mode)
+            }
         } catch (err: unknown) {
             const errorMessage = err instanceof Error ? err.message : 'Failed to sign out';
             setError(errorMessage);
@@ -268,11 +281,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Update user profile
     const updateUserProfile = async (data: Partial<UserProfile>) => {
         if (!user) throw new Error('No user logged in');
+        const isMockEnv = process.env.NODE_ENV === 'development' && !process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
 
         try {
             setError(null);
+
+            if (isMockEnv) {
+                // Simulate delay
+                await new Promise(resolve => setTimeout(resolve, 500));
+
+                setProfile((prev) => {
+                    const newProfile = prev ? { ...prev, ...data } : null;
+                    if (newProfile) {
+                        localStorage.setItem('ye_profile', JSON.stringify(newProfile));
+                    }
+                    return newProfile;
+                });
+                return;
+            }
+
             await setDoc(doc(db, 'users', user.uid), data, { merge: true });
-            setProfile((prev) => prev ? { ...prev, ...data } : null);
+
+            setProfile((prev) => {
+                const newProfile = prev ? { ...prev, ...data } : null;
+                if (newProfile) {
+                    localStorage.setItem('ye_profile', JSON.stringify(newProfile));
+                }
+                return newProfile;
+            });
         } catch (err: unknown) {
             const errorMessage = err instanceof Error ? err.message : 'Failed to update profile';
             setError(errorMessage);

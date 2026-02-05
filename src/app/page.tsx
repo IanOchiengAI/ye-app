@@ -56,11 +56,17 @@ export default function Home() {
                 🇰🇪 Empowering Kenyan Youth Since 2020 — Join 15,000+ Students Today!
             </div>
 
-            {/* Header */}
             <header className={styles.header}>
                 <nav className={styles.nav}>
                     <Link href="/" className={styles.logo}>
-                        Youth<span className={styles.logoAccent}>Educated</span>
+                        <Image
+                            src="/images/logo.png"
+                            alt="Youth Educated Logo"
+                            width={180}
+                            height={60}
+                            className={styles.logoImage}
+                            priority
+                        />
                     </Link>
 
                     <div className={styles.navLinks}>
@@ -298,6 +304,6 @@ export default function Home() {
                     <p>Made with ❤️ in Nairobi for Africa&apos;s next generation.</p>
                 </div>
             </footer>
-        </div>
+        </div >
     );
 }

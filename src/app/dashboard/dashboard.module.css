@@ -9,15 +9,97 @@
 /* Sidebar */
 .sidebar {
     width: 280px;
-    background: white;
-    border-right: 1px solid #e2e8f0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-right: 1px solid rgba(0, 0, 0, 0.05);
     padding: 24px 20px;
     display: flex;
     flex-direction: column;
     position: sticky;
     top: 0;
     height: 100vh;
+    z-index: 100;
+    box-shadow: 5px 0 25px rgba(0, 0, 0, 0.03);
 }
+
+/* Explore Banner with Rich Gradient */
+.exploreBanner {
+    background: linear-gradient(135deg, #1A1A5E 0%, #302b63 50%, #24243e 100%);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    color: var(--color-white);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 40px -10px rgba(26, 26, 94, 0.4);
+}
+
+.exploreBanner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(30%, -30%);
+}
+
+.exploreBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-6);
+    padding: var(--space-3) var(--space-6);
+    background-color: var(--color-yellow);
+    color: var(--color-primary);
+    border-radius: var(--radius-full);
+    font-weight: var(--font-bold);
+    transition: all var(--transition-base);
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+}
+
+.exploreBtn:hover {
+    background-color: var(--color-white);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+}
+
+/* Card Hover Lifts */
+.dashboardCard,
+.courseCard {
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.dashboardCard:hover,
+.courseCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.06);
+}
+
+/* Success Score Gradient Ring */
+.scoreRing {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: conic-gradient(var(--color-primary) var(--progress), #e2e8f0 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--space-4);
+    position: relative;
+    box-shadow: 0 10px 20px rgba(26, 26, 94, 0.15);
+}
+
+.scoreRing::after {
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: white;
+    border-radius: 50%;
+}
+
 
 @media (max-width: 1024px) {
     .sidebar {
@@ -235,6 +317,96 @@
     justify-content: center;
     font-weight: 700;
     font-size: 15px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.avatar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(26, 26, 94, 0.3);
+}
+
+.avatarWrapper {
+    position: relative;
+}
+
+.userDropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    min-width: 220px;
+    padding: 8px;
+    z-index: 1000;
+    border: 1px solid #e2e8f0;
+    animation: dropdownSlide 0.2s ease;
+}
+
+@keyframes dropdownSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdownHeader {
+    padding: 12px;
+    border-bottom: 1px solid #f1f5f9;
+    margin-bottom: 8px;
+}
+
+.dropdownHeader strong {
+    display: block;
+    color: #0f172a;
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.dropdownHeader span {
+    display: block;
+    color: #64748b;
+    font-size: 12px;
+}
+
+.dropdownItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px 12px;
+    border: none;
+    background: none;
+    text-align: left;
+    font-size: 14px;
+    color: #334155;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.dropdownItem:hover {
+    background: #f8fafc;
+}
+
+.logoutItem {
+    color: #ef4444;
+    margin-top: 4px;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 12px;
+    border-radius: 0 0 8px 8px;
+}
+
+.logoutItem:hover {
+    background: #fef2f2;
 }
 
 /* Content */
@@ -315,16 +487,27 @@
 }
 
 .scoreRing {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: conic-gradient(var(--color-primary) 45%, #e2e8f0 0);
+    /* Hardcoded specific check for demo or verify conic syntax */
+    /* Note: React inline style usually sets the variable, but here we set default */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
     position: relative;
-    width: 100px;
-    height: 100px;
-    margin: 16px auto;
+    box-shadow: 0 10px 20px rgba(26, 26, 94, 0.15);
 }
 
-.scoreRing svg {
-    width: 100%;
-    height: 100%;
-    transform: rotate(-90deg);
+.scoreRing::after {
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: white;
+    border-radius: 50%;
 }
 
 .scoreValue {
@@ -334,8 +517,9 @@
     align-items: center;
     justify-content: center;
     font-weight: 800;
-    font-size: 22px;
+    font-size: 26px;
     color: #1A1A5E;
+    z-index: 10;
 }
 
 .scoreMessage {
@@ -347,8 +531,8 @@
 /* Explore Banner */
 .exploreBanner {
     grid-column: span 3;
-    background: linear-gradient(135deg, #1A1A5E 0%, #2D2A5E 50%, #1A1A5E 100%);
-    border-radius: 20px;
+    background: linear-gradient(135deg, #1A1A5E 0%, #302b63 50%, #24243e 100%);
+    border-radius: 24px;
     padding: 40px;
     display: flex;
     justify-content: space-between;
@@ -356,6 +540,19 @@
     color: white;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 20px 40px -10px rgba(26, 26, 94, 0.4);
+}
+
+.exploreBanner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(30%, -30%);
 }
 
 @media (max-width: 1200px) {

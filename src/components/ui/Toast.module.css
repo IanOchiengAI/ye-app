@@ -1,0 +1,31 @@
+.toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #FF6B6B;
+    /* Warm Coral */
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    z-index: 5000;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.show {
+    transform: translateX(-50%) translateY(0);
+}
+
+.hide {
+    transform: translateX(-50%) translateY(100px);
+}
+
+.icon {
+    font-size: 1.2rem;
+}

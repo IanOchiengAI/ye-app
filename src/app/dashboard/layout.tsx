@@ -32,5 +32,43 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         return null;
     }
 
-    return <>{children}</>;
+    return (
+        <div style={{ position: 'relative', minHeight: '100vh' }}>
+            {children}
+
+            {/* AI Companion Floating Action Button (FAB) */}
+            <div
+                style={{
+                    position: 'fixed',
+                    bottom: '24px',
+                    right: '24px',
+                    zIndex: 1000,
+                    animation: 'float 3s ease-in-out infinite'
+                }}
+            >
+                <button
+                    onClick={() => router.push('/ai-companion')}
+                    style={{
+                        width: '56px',
+                        height: '56px',
+                        borderRadius: '50%',
+                        backgroundColor: '#FFD700', // Yellow
+                        border: 'none',
+                        boxShadow: '0 4px 15px rgba(255, 215, 0, 0.4)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '24px',
+                        cursor: 'pointer',
+                        transition: 'transform 0.2s',
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+                    onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1.0)'}
+                    title="Talk to Rafiki"
+                >
+                    ✨
+                </button>
+            </div>
+        </div>
+    );
 }

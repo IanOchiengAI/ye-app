@@ -79,7 +79,14 @@ export default function MentorsPage() {
                     {filteredMentors.map(mentor => (
                         <div key={mentor.id} className={styles.mentorCard}>
                             <div className={styles.cardHeader}>
-                                <span className={styles.mentorAvatar}>{mentor.imageUrl}</span>
+                                <div className={styles.mentorAvatar}>
+                                    {/* Using img tag to avoid domain config issues during demo */}
+                                    <img
+                                        src={mentor.imageUrl}
+                                        alt={mentor.name}
+                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                    />
+                                </div>
                                 {mentor.available ? (
                                     <span className={styles.statusAvailable}>Available</span>
                                 ) : (
@@ -88,9 +95,18 @@ export default function MentorsPage() {
                             </div>
 
                             <div className={styles.cardContent}>
-                                <h3>{mentor.name}</h3>
+                                <h3>Meet {mentor.name.split(' ')[0]}</h3>
                                 <p className={styles.role}>{mentor.role} @ {mentor.company}</p>
-                                <p className={styles.bio}>{mentor.bio}</p>
+
+                                <div className={styles.storySection}>
+                                    <h4>My Story</h4>
+                                    <p className={styles.bio}>{mentor.bio}</p>
+                                </div>
+
+                                <div className={styles.funFactSection}>
+                                    <h4>Fun Fact</h4>
+                                    <p>{mentor.funFact}</p>
+                                </div>
 
                                 <div className={styles.tags}>
                                     {mentor.expertise.map(tag => (

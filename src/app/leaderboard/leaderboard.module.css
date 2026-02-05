@@ -1,0 +1,344 @@
+/* Leaderboard Styles */
+
+.leaderboardPage {
+    min-height: 100vh;
+    background-color: var(--color-bg);
+}
+
+.header {
+    background-color: white;
+    padding: var(--space-4) var(--space-6);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.backLink {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-text-secondary);
+    font-weight: var(--font-medium);
+    transition: color 0.2s;
+}
+
+.backLink:hover {
+    color: var(--color-primary);
+}
+
+.pageTitle {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-primary);
+    text-align: center;
+    flex: 1;
+}
+
+.headerActions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--space-6);
+    position: relative;
+    padding-bottom: 6rem;
+}
+
+/* Toggle Switch */
+.toggleContainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: var(--space-8);
+}
+
+.toggleWrapper {
+    background: #e2e8f0;
+    padding: 4px;
+    border-radius: 100px;
+    display: flex;
+    position: relative;
+    cursor: pointer;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.toggleOption {
+    padding: 10px 24px;
+    border-radius: 100px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    z-index: 2;
+    transition: color 0.3s;
+    user-select: none;
+    color: #64748b;
+}
+
+.toggleOption.active {
+    color: var(--color-primary);
+}
+
+.toggleSlider {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    bottom: 4px;
+    width: 50%;
+    /* Approx, adjusts via transform */
+    background: white;
+    border-radius: 100px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    z-index: 1;
+}
+
+/* Podium */
+.podium {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: var(--space-4);
+    margin-bottom: var(--space-10);
+}
+
+.podiumPlace {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+
+.podiumAvatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: var(--space-2);
+    object-fit: cover;
+    z-index: 2;
+}
+
+.podiumStep {
+    width: 80px;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: var(--space-2);
+    font-weight: 900;
+    font-size: 2rem;
+    color: rgba(255, 255, 255, 0.8);
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.firstPlace .podiumAvatar {
+    width: 80px;
+    height: 80px;
+    border-color: #FFD700;
+}
+
+.firstPlace .podiumStep {
+    height: 140px;
+    background: linear-gradient(to bottom, #FFD700, #FDB931);
+}
+
+.secondPlace .podiumAvatar {
+    border-color: #C0C0C0;
+}
+
+.secondPlace .podiumStep {
+    height: 100px;
+    background: linear-gradient(to bottom, #C0C0C0, #A9A9A9);
+}
+
+.thirdPlace .podiumAvatar {
+    border-color: #CD7F32;
+}
+
+.thirdPlace .podiumStep {
+    height: 70px;
+    background: linear-gradient(to bottom, #CD7F32, #8B4513);
+}
+
+.podiumName {
+    font-weight: 700;
+    margin-top: var(--space-2);
+    font-size: 0.9rem;
+    color: var(--color-primary);
+}
+
+.podiumPoints {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+}
+
+/* List */
+.list {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.listItem {
+    display: flex;
+    align-items: center;
+    padding: var(--space-4) var(--space-6);
+    border-bottom: 1px solid #f1f5f9;
+    transition: background-color 0.2s;
+}
+
+.listItem:last-child {
+    border-bottom: none;
+}
+
+.rank {
+    width: 40px;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #94a3b8;
+}
+
+.user {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.avatarSmall {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: var(--color-text-secondary);
+}
+
+.userInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.userName {
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.userSchool {
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+.stats {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+}
+
+.statItem {
+    text-align: right;
+}
+
+.statValue {
+    font-weight: 800;
+    color: var(--color-primary);
+    display: block;
+}
+
+.statLabel {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Blur / Blurred State */
+.blurred {
+    filter: blur(4px);
+    opacity: 0.6;
+    pointer-events: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.lockOverlay {
+    position: absolute;
+    bottom: 4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 500px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    z-index: 10;
+}
+
+.lockIcon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.lockTitle {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+}
+
+.lockText {
+    color: #64748b;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+/* Premium Badges */
+.premiumBadge {
+    background: linear-gradient(135deg, #FFD700, #FDB931);
+    color: #1A1A5E;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    margin-left: 8px;
+    text-transform: uppercase;
+}
+
+/* Premium Columns (Only visible in Premium Mode) */
+.premiumStat {
+    display: none;
+}
+
+.premiumMode .premiumStat {
+    display: block;
+}
+
+@media (max-width: 640px) {
+    .premiumStat {
+        display: none !important;
+        /* Hide on mobile anyway for space */
+    }
+
+    .stats {
+        gap: var(--space-2);
+    }
+}

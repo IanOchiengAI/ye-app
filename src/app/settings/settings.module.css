@@ -1,0 +1,151 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    min-height: 100vh;
+    background: #f8fafc;
+}
+
+.header {
+    margin-bottom: 2rem;
+}
+
+.backLink {
+    display: inline-block;
+    color: var(--color-text-muted);
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.content {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.profileCard {
+    background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));
+    color: white;
+    padding: 3rem 2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.avatarLarge {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.email {
+    opacity: 0.8;
+    margin-bottom: 1rem;
+}
+
+.roleBadge {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.25rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.menu {
+    padding: 1rem;
+}
+
+.menuSection {
+    margin-bottom: 1.5rem;
+}
+
+.menuSection h3 {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    padding-left: 1rem;
+    letter-spacing: 0.5px;
+}
+
+.menuItem {
+    width: 100%;
+    display: block;
+    text-align: left;
+    padding: 1rem;
+    border: none;
+    background: white;
+    font-size: 1rem;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: background 0.2s;
+    border-radius: 8px;
+}
+
+.menuItem:hover {
+    background: #f1f5f9;
+}
+
+.premiumMenuItem {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background: linear-gradient(to right, #fff5f5, #fff);
+    border: 1px solid #ffe3e3;
+    border-radius: 12px;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--color-text);
+    transition: transform 0.2s;
+}
+
+.premiumMenuItem:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 122, 89, 0.15);
+}
+
+.menuIcon {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+}
+
+.menuText {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.menuTitle {
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.menuSubtitle {
+    font-size: 0.85rem;
+    color: var(--color-coral);
+}
+
+.menuArrow {
+    color: var(--color-primary-light);
+    font-weight: 700;
+}
+
+.logoutBtn {
+    color: var(--color-error);
+    font-weight: 600;
+}
+
+.logoutBtn:hover {
+    background: #fef2f2;
+}

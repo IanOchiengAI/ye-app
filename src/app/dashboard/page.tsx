@@ -2,36 +2,38 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
+import { useMenteeProgress } from '@/hooks/useMenteeProgress';
 import styles from './dashboard.module.css';
 
-// Mock data for courses with kid-friendly educational images
-const COURSES = [
+// Life Skills Paths - Focus on mentorship and personal development
+const LIFE_SKILLS = [
     {
         id: '1',
-        title: 'Mathematics Tutorials',
-        category: 'KCSE Prep',
-        thumbnail: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=400&q=80',
-        videos: 12,
-        materials: 35,
+        title: 'Money & Financial Literacy',
+        category: 'Life Skills',
+        thumbnail: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=400&q=80',
+        lessons: 8,
+        mentorTips: 12,
         progress: 45
     },
     {
         id: '2',
-        title: 'Physics Tutorials',
-        category: 'KCSE Prep',
-        thumbnail: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=400&q=80',
-        videos: 12,
-        materials: 35,
+        title: 'Career Discovery',
+        category: 'Future Ready',
+        thumbnail: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=400&q=80',
+        lessons: 6,
+        mentorTips: 10,
         progress: 10
     },
     {
         id: '3',
-        title: 'English Tutorials',
-        category: 'KCSE Prep',
-        thumbnail: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=400&q=80',
-        videos: 12,
-        materials: 35,
+        title: 'Communication & Confidence',
+        category: 'Soft Skills',
+        thumbnail: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=400&q=80',
+        lessons: 5,
+        mentorTips: 8,
         progress: 0
     }
 ];
@@ -147,8 +149,11 @@ const ArrowRightIcon = () => (
 );
 
 export default function DashboardPage() {
-    const { profile } = useAuth();
+    const { profile, logOut } = useAuth();
+    const router = useRouter();
+    const { progress, loading: progressLoading } = useMenteeProgress();
     const [greeting, setGreeting] = useState('');
+    const [showUserMenu, setShowUserMenu] = useState(false);
 
     useEffect(() => {
         const hour = new Date().getHours();
@@ -205,7 +210,7 @@ export default function DashboardPage() {
                 <header className={styles.header}>
                     <div className={styles.searchBar}>
                         <SearchIcon />
-                        <input type="text" placeholder="Search courses, topics..." />
+                        <input type="text" placeholder="Search life skills, mentors..." />
                         <kbd className={styles.searchShortcut}>⌘K</kbd>
                     </div>
 
@@ -218,8 +223,37 @@ export default function DashboardPage() {
                             <BellIcon />
                             <span className={styles.notificationDot}></span>
                         </button>
-                        <div className={styles.avatar}>
-                            {displayName[0]}
+                        <div className={styles.avatarWrapper}>
+                            <button
+                                className={styles.avatar}
+                                onClick={() => setShowUserMenu(!showUserMenu)}
+                                aria-label="User menu"
+                            >
+                                {displayName[0]}
+                            </button>
+                            {showUserMenu && (
+                                <div className={styles.userDropdown}>
+                                    <div className={styles.dropdownHeader}>
+                                        <strong>{profile?.displayName || 'User'}</strong>
+                                        <span>{profile?.email}</span>
+                                    </div>
+                                    <Link href="/settings" className={styles.dropdownItem}>
+                                        ⚙️ Settings
+                                    </Link>
+                                    <Link href="/premium/upgrade" className={styles.dropdownItem}>
+                                        ✨ Upgrade to Premium
+                                    </Link>
+                                    <button
+                                        className={`${styles.dropdownItem} ${styles.logoutItem}`}
+                                        onClick={async () => {
+                                            await logOut();
+                                            router.push('/');
+                                        }}
+                                    >
+                                        🚪 Log Out
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </header>
@@ -227,13 +261,13 @@ export default function DashboardPage() {
                 <main className={styles.content}>
                     <div className={styles.greetingSection}>
                         <h2>{greeting}, {displayName}</h2>
-                        <p className={styles.greetingSubtext}>Here&apos;s what&apos;s happening with your learning today.</p>
+                        <p className={styles.greetingSubtext}>Here&apos;s your journey to becoming your best self.</p>
                     </div>
 
                     <div className={styles.topGrid}>
-                        {/* Daily Challenge Card */}
+                        {/* Daily Growth Card */}
                         <div className={styles.dashboardCard}>
-                            <h3 className={styles.cardTitle}>Daily Challenge</h3>
+                            <h3 className={styles.cardTitle}>Today&apos;s Growth Goals</h3>
                             <div className={styles.challengeItem}>
                                 <div className={`${styles.challengeCheck} ${styles.challengeDone}`}>
                                     <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
@@ -241,48 +275,61 @@ export default function DashboardPage() {
                                     </svg>
                                 </div>
                                 <div className={styles.challengeText}>
-                                    Score 70% in any quiz
+                                    Practice one financial habit
                                     <span className={styles.xpBadge}>+10 XP</span>
                                 </div>
                             </div>
                             <div className={styles.challengeItem}>
                                 <div className={styles.challengeCheck}></div>
-                                <div className={styles.challengeText}>Complete 3 chapters in Maths</div>
+                                <div className={styles.challengeText}>Send a message to your mentor</div>
                             </div>
                             <Link href="/modules" className={styles.cardLink}>
-                                View All Challenges <ArrowRightIcon />
+                                View All Goals <ArrowRightIcon />
                             </Link>
                         </div>
 
-                        {/* Success Tracker Card */}
+                        {/* Growth Tracker Card */}
                         <div className={`${styles.dashboardCard} ${styles.scoreCard}`}>
-                            <h3 className={styles.cardTitle}>Success Score</h3>
+                            <h3 className={styles.cardTitle}>Growth Score</h3>
                             <div className={styles.scoreRing}>
                                 <svg viewBox="0 0 36 36">
                                     <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#f1f5f9" strokeWidth="3" />
-                                    <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#1A1A5E" strokeWidth="3" strokeDasharray="45, 100" />
+                                    <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#1A1A5E" strokeWidth="3" strokeDasharray={`${progressLoading ? 0 : progress}, 100`} />
                                 </svg>
-                                <div className={styles.scoreValue}>45%</div>
+                                <div className={styles.scoreValue}>{progressLoading ? '...' : `${progress}%`}</div>
                             </div>
                             <p className={styles.scoreMessage}>You&apos;re making great progress!</p>
                         </div>
 
-                        {/* Leaderboard Mini */}
+                        {/* Mentor / Empty State Card */}
                         <div className={styles.dashboardCard}>
-                            <h3 className={styles.cardTitle}>Top Performers</h3>
-                            <div className={styles.leaderboardItem}>
-                                <span className={styles.rank}>1</span>
-                                <span className={styles.userName}>John Arowoka</span>
-                                <span className={styles.userPoints}>2.4k XP</span>
-                            </div>
-                            <div className={styles.leaderboardItem}>
-                                <span className={styles.rank}>2</span>
-                                <span className={styles.userName}>Sarah Kimani</span>
-                                <span className={styles.userPoints}>2.1k XP</span>
-                            </div>
-                            <Link href="/leaderboard" className={styles.cardLink}>
-                                View Full Leaderboard <ArrowRightIcon />
-                            </Link>
+                            {profile?.role === 'mentee' && !profile?.assignedMentorId ? (
+                                // Empty State: No Mentor Assigned
+                                <div className="text-center p-4">
+                                    <h3 className={styles.cardTitle}>Ready to find your guide?</h3>
+                                    <p className="text-muted mb-4 text-sm">
+                                        Connect with a professional who can help shape your future.
+                                    </p>
+                                    <Link href="/mentors" className="btn btn-primary btn-full">
+                                        Find a Mentor Now
+                                    </Link>
+                                </div>
+                            ) : (
+                                // Active State: Mentor Assigned (Mock for now or if profile has mentor data)
+                                <>
+                                    <h3 className={styles.cardTitle}>Your Mentor</h3>
+                                    <div className={styles.leaderboardItem}>
+                                        <div className={styles.avatar} style={{ background: '#FF7A59' }}>SJ</div>
+                                        <div className="flex-1 ml-3">
+                                            <span className={styles.userName}>Sarah Juma</span>
+                                            <span className="text-xs text-muted block">Software Engineer</span>
+                                        </div>
+                                    </div>
+                                    <Link href="/ai-companion" className={styles.cardLink}>
+                                        Chat Now <ArrowRightIcon />
+                                    </Link>
+                                </>
+                            )}
                         </div>
 
                         {/* Explore Banner */}
@@ -305,7 +352,7 @@ export default function DashboardPage() {
                     </div>
 
                     <div className={styles.coursesHeader}>
-                        <h3>My Current Path</h3>
+                        <h3>My Growth Journey</h3>
                         <div className={styles.courseFilters}>
                             <button className={`${styles.filterBtn} ${styles.filterBtnActive}`}>All</button>
                             <button className={styles.filterBtn}>Ongoing</button>
@@ -314,22 +361,22 @@ export default function DashboardPage() {
                     </div>
 
                     <div className={styles.coursesGrid}>
-                        {COURSES.map(course => (
-                            <Link key={course.id} href={`/modules/${course.id}`} className={styles.courseItem}>
-                                <div className={styles.courseThumb} style={{ backgroundImage: `url(${course.thumbnail})` }}>
-                                    <span className={styles.courseBadge}>{course.category}</span>
+                        {LIFE_SKILLS.map(skill => (
+                            <Link key={skill.id} href={`/modules/${skill.id}`} className={styles.courseItem}>
+                                <div className={styles.courseThumb} style={{ backgroundImage: `url(${skill.thumbnail})` }}>
+                                    <span className={styles.courseBadge}>{skill.category}</span>
                                 </div>
                                 <div className={styles.courseInfo}>
-                                    <h4>{course.title}</h4>
+                                    <h4>{skill.title}</h4>
                                     <div className={styles.courseMeta}>
-                                        <span><PlayIcon /> {course.videos} Videos</span>
-                                        <span><FileIcon /> {course.materials} Materials</span>
+                                        <span><PlayIcon /> {skill.lessons} Lessons</span>
+                                        <span><FileIcon /> {skill.mentorTips} Mentor Tips</span>
                                     </div>
                                     <div className={styles.courseProgress}>
-                                        <div className={styles.progressFill} style={{ width: `${course.progress}%` }}></div>
+                                        <div className={styles.progressFill} style={{ width: `${skill.progress}%` }}></div>
                                     </div>
                                     <div className={styles.progressLabel}>
-                                        {course.progress}% Complete
+                                        {skill.progress}% Complete
                                     </div>
                                 </div>
                             </Link>
