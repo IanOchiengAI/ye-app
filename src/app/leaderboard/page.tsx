@@ -56,10 +56,6 @@ export default function LeaderboardPage() {
                     >
                         <div
                             className={styles.toggleSlider}
-                            style={{
-                                transform: viewMode === 'free' ? 'translateX(0)' : 'translateX(100%)',
-                                width: '50%'
-                            }}
                         />
                         <div className={`${styles.toggleOption} ${viewMode === 'free' ? styles.active : ''}`}>
                             Free View 🔒
@@ -74,7 +70,15 @@ export default function LeaderboardPage() {
                 <div className={styles.podium}>
                     {/* Second Place */}
                     <div className={`${styles.podiumPlace} ${styles.secondPlace}`}>
-                        <img src={topThree[1].avatar} alt={topThree[1].name} className={styles.podiumAvatar} />
+                        <div className={styles.podiumAvatarWrapper}>
+                            <Image
+                                src={topThree[1].avatar || '/avatar-placeholder.png'}
+                                alt={topThree[1].name}
+                                className={styles.podiumAvatar}
+                                width={80}
+                                height={80}
+                            />
+                        </div>
                         <div className={styles.podiumStep}>2</div>
                         <div className={styles.podiumName}>{topThree[1].name}</div>
                         <div className={styles.podiumPoints}>{topThree[1].points.toLocaleString()} XP</div>
@@ -82,9 +86,15 @@ export default function LeaderboardPage() {
 
                     {/* First Place */}
                     <div className={`${styles.podiumPlace} ${styles.firstPlace}`}>
-                        <div style={{ position: 'relative' }}>
-                            <img src={topThree[0].avatar} alt={topThree[0].name} className={styles.podiumAvatar} />
-                            <span style={{ position: 'absolute', top: -15, left: '50%', transform: 'translateX(-50%)', fontSize: '1.5rem' }}>👑</span>
+                        <div className={styles.podiumAvatarWrapper}>
+                            <Image
+                                src={topThree[0].avatar || '/avatar-placeholder.png'}
+                                alt={topThree[0].name}
+                                className={styles.podiumAvatar}
+                                width={100}
+                                height={100}
+                            />
+                            <span className={styles.crownIcon}>👑</span>
                         </div>
                         <div className={styles.podiumStep}>1</div>
                         <div className={styles.podiumName}>{topThree[0].name}</div>
@@ -93,7 +103,15 @@ export default function LeaderboardPage() {
 
                     {/* Third Place */}
                     <div className={`${styles.podiumPlace} ${styles.thirdPlace}`}>
-                        <img src={topThree[2].avatar} alt={topThree[2].name} className={styles.podiumAvatar} />
+                        <div className={styles.podiumAvatarWrapper}>
+                            <Image
+                                src={topThree[2].avatar || '/avatar-placeholder.png'}
+                                alt={topThree[2].name}
+                                className={styles.podiumAvatar}
+                                width={80}
+                                height={80}
+                            />
+                        </div>
                         <div className={styles.podiumStep}>3</div>
                         <div className={styles.podiumName}>{topThree[2].name}</div>
                         <div className={styles.podiumPoints}>{topThree[2].points.toLocaleString()} XP</div>
@@ -132,7 +150,7 @@ export default function LeaderboardPage() {
                                 {viewMode === 'premium' && (
                                     <>
                                         <div className={`${styles.statItem} ${styles.premiumStat}`}>
-                                            <span className={styles.statValue} style={{ color: '#10b981' }}>{user.growth}</span>
+                                            <span className={`${styles.statValue} ${styles.growthPositive}`}>{user.growth}</span>
                                             <span className={styles.statLabel}>Growth</span>
                                         </div>
                                         <div className={`${styles.statItem} ${styles.premiumStat}`}>
@@ -154,10 +172,10 @@ export default function LeaderboardPage() {
                         <p className={styles.lockText}>
                             Free members see the Top 3. Upgrade to Premium to see your exact global ranking, compare schools, and track weekly growth.
                         </p>
-                        <Link href="/premium" className="btn btn-primary btn-lg" style={{ width: '100%', justifyContent: 'center' }}>
+                        <Link href="/premium" className={`btn btn-primary btn-lg ${styles.upgradeBtn}`}>
                             Upgrade to Premium
                         </Link>
-                        <p style={{ marginTop: '1rem', fontSize: '0.8rem', color: '#94a3b8', cursor: 'pointer' }} onClick={() => setViewMode('premium')}>
+                        <p className={styles.devToggle} onClick={() => setViewMode('premium')}>
                             (Developer: Click Toggle above to test)
                         </p>
                     </div>

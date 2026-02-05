@@ -131,6 +131,31 @@ body {
   background-color: var(--color-bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Mobile Safe Areas */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+
+  /* Prevent scroll chaining on mobile */
+  overscroll-behavior-y: none;
+}
+
+/* --- Touch Targets --- */
+button,
+.btn,
+a.sidebarItem,
+.dropdownItem {
+  min-height: 48px;
+  /* Standard accessible touch target */
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Prevent double-tap zoom on buttons */
+button {
+  touch-action: manipulation;
 }
 
 /* === Typography === */

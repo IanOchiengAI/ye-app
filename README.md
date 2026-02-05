@@ -20,16 +20,16 @@ We have built dedicated experiences for every stakeholder in the education ecosy
 
 ### 🎓 For Students
 
-**[Go to Student Dashboard](/dashboard)**
+**[Check Student Dashboard Code](./src/app/dashboard)**
 The heart of the experience. Learn, grow, and connect.
 
 * **📚 Life Skills Modules**: Financial literacy, career discovery, and soft skills.
 * **🤖 Rafiki AI Companion**: 24/7 guidance on CBC, exams, and mental health (Voice-enabled!).
-* **🏆 Global Leaderboard**: Compete with students nationwide. [View Leaderboard](/leaderboard)
+* **🏆 Global Leaderboard**: Compete with students nationwide. [Check Leaderboard Code](./src/app/leaderboard)
 
 ### 🏫 For Schools
 
-**[Go to School Administrator Dashboard](/school-dashboard)**
+**[Check School Administrator Dashboard Code](./src/app/school-dashboard)**
 Empowering institutions with data.
 
 * **📊 Live Analytics**: Track student engagement and skill acquisition.
@@ -38,7 +38,7 @@ Empowering institutions with data.
 
 ### 🤝 For Sponsors & Partners
 
-**[Go to Sponsor Portal](/sponsor-portal)**
+**[Check Sponsor Portal Code](./src/app/sponsor-portal)**
 See the difference you make.
 
 * **🌍 Real-Time Impact**: Watch your investment transform lives.

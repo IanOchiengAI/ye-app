@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import '@/styles/globals.css';
 import '@/styles/components.css';
 import { AuthProvider } from '@/contexts/AuthContext';
+import SWRegistration from '@/components/SWRegistration';
 
 export const metadata: Metadata = {
     title: 'Youth Educated - Mentorship & Life Skills for African Youth',
@@ -43,6 +44,7 @@ export default function RootLayout({
             </head>
             <body>
                 <AuthProvider>
+                    <SWRegistration />
                     {children}
                 </AuthProvider>
             </body>
