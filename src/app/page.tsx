@@ -209,16 +209,16 @@ export default function Home() {
                 <div className={styles.featureRow}>
                     <div className={styles.featureContent}>
                         <span className={styles.featureIcon}>🧠</span>
-                        <h3>Your 24/7 Secret Weapon</h3>
+                        <h3>Your Personal Study Guide</h3>
                         <p>
-                            Rafiki AI isn&apos;t just a chatbot — it&apos;s your personal strategist. Whether you&apos;re debating career moves or need a quick pep talk in Sheng, Rafiki has your back.
+                            Rafiki isn't just a chatbot — it's a study partner that never gets tired. Stuck on a math problem or need advice in Sheng? Rafiki is here to help you understand, not just answer.
                         </p>
                         <ul className={styles.featureList}>
-                            <li>🚀 Smart Career Roadmaps</li>
-                            <li>🚀 Exam Mastery Secrets</li>
+                            <li>🚀 clear explanations for difficult topics</li>
+                            <li>🚀 Practice questions for KCSE</li>
                             <li>🚀 Multilingual Support (Swahili/Sheng)</li>
                         </ul>
-                        <Link href="/ai-companion" className="btn btn-primary" style={{ background: 'linear-gradient(90deg, #00d4ff, #7c3aed)', border: 'none' }}>Talk to Rafiki</Link>
+                        <Link href="/ai-companion" className="btn btn-primary" style={{ background: '#1A1A5E', border: 'none' }}>Chat with Rafiki</Link>
                     </div>
                     <div className={styles.featureImage}>
                         <div className={styles.aiMockup}>
