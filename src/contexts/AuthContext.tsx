@@ -301,8 +301,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     // Reset password
     const resetPassword = async (email: string) => {
+        const isMockEnv = process.env.NODE_ENV === 'development' && !process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
+
         try {
             setError(null);
+
+            if (isMockEnv) {
+                // Determine if this is a "real" mock user or just a random email
+                // For privacy/security simulation, we usually don't reveal if email exists,
+                // but for a demo, we might want to check.
+                await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate returning success
+                console.log(`[Mock Mode] Password reset email sent to ${email}`);
+                return;
+            }
+
             await sendPasswordResetEmail(auth, email);
         } catch (err: unknown) {
             const errorMessage = getUserFriendlyError(err);
