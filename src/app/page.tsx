@@ -211,7 +211,7 @@ export default function Home() {
                         <span className={styles.featureIcon}>🧠</span>
                         <h3>Your Personal Study Guide</h3>
                         <p>
-                            Rafiki isn't just a chatbot — it's a study partner that never gets tired. Stuck on a math problem or need advice in Sheng? Rafiki is here to help you understand, not just answer.
+                            Rafiki isn&apos;t just a chatbot — it&apos;s a study partner that never gets tired. Stuck on a math problem or need advice in Sheng? Rafiki is here to help you understand, not just answer.
                         </p>
                         <ul className={styles.featureList}>
                             <li>🚀 clear explanations for difficult topics</li>
