@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
@@ -184,7 +184,7 @@ export default function DashboardPage() {
                         <BookIcon /> My Courses
                     </Link>
                     <Link href="/ai-companion" className={styles.sidebarItem}>
-                        <MessageIcon /> Messages
+                        <MessageIcon /> 🦁 Rafiki AI
                     </Link>
                     <Link href="/mentors" className={styles.sidebarItem}>
                         <UsersIcon /> Community
@@ -261,7 +261,7 @@ export default function DashboardPage() {
                 <main className={styles.content}>
                     <div className={styles.greetingSection}>
                         <h2>{greeting}, {displayName}</h2>
-                        <p className={styles.greetingSubtext}>Here&apos;s your journey to becoming your best self.</p>
+                        <p className={styles.greetingSubtext}>You&apos;re {progress}% closer to mastering life-changing skills. Let&apos;s keep building! 💪</p>
                     </div>
 
                     <div className={styles.topGrid}>
@@ -301,32 +301,50 @@ export default function DashboardPage() {
                             <p className={styles.scoreMessage}>You&apos;re making great progress!</p>
                         </div>
 
+                        {/* Rafiki AI Card - NEW */}
+                        <div className={styles.dashboardCard} style={{ background: 'linear-gradient(135deg, #1A1A5E 0%, #2D2A5E 100%)', color: 'white', border: 'none' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                                <h3 className={styles.cardTitle} style={{ color: 'white', marginBottom: 0 }}>Rafiki AI Tutor</h3>
+                                <span style={{ fontSize: '24px' }}>🦁</span>
+                            </div>
+                            <p style={{ fontSize: '14px', opacity: 0.9, lineHeight: 1.5, marginBottom: '20px' }}>
+                                Stuck on a concept? Need career advice? I'm here to help you 24/7!
+                            </p>
+                            <Link href="/ai-companion" style={{
+                                display: 'inline-flex', alignItems: 'center', gap: '8px',
+                                background: 'rgba(255,255,255,0.2)', color: 'white',
+                                padding: '8px 16px', borderRadius: '8px', textDecoration: 'none', fontWeight: 600
+                            }}>
+                                Chat with Rafiki <ArrowRightIcon />
+                            </Link>
+                        </div>
+
                         {/* Mentor / Empty State Card */}
                         <div className={styles.dashboardCard}>
                             {profile?.role === 'mentee' && !profile?.assignedMentorId ? (
                                 // Empty State: No Mentor Assigned
                                 <div className="text-center p-4">
-                                    <h3 className={styles.cardTitle}>Ready to find your guide?</h3>
-                                    <p className="text-muted mb-4 text-sm">
-                                        Connect with a professional who can help shape your future.
+                                    <h3 className={styles.cardTitle}>Ready to Find Your Guide?</h3>
+                                    <p className="text-muted mb-4 text-sm" style={{ marginBottom: '16px' }}>
+                                        Connect with a mentor from Safaricom or Equity.
                                     </p>
-                                    <Link href="/mentors" className="btn btn-primary btn-full">
-                                        Find a Mentor Now
+                                    <Link href="/mentors" className={styles.cardLink}>
+                                        Find a Mentor <ArrowRightIcon />
                                     </Link>
                                 </div>
                             ) : (
                                 // Active State: Mentor Assigned (Mock for now or if profile has mentor data)
                                 <>
                                     <h3 className={styles.cardTitle}>Your Mentor</h3>
-                                    <div className={styles.leaderboardItem}>
-                                        <div className={styles.avatar} style={{ background: '#FF7A59' }}>SJ</div>
-                                        <div className="flex-1 ml-3">
-                                            <span className={styles.userName}>Sarah Juma</span>
-                                            <span className="text-xs text-muted block">Software Engineer</span>
+                                    <div className={styles.leaderboardItem} style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' }}>
+                                        <div className={styles.avatar} style={{ background: '#FF7A59', marginRight: '12px' }}>SJ</div>
+                                        <div className="flex-1">
+                                            <span className={styles.userName} style={{ display: 'block', fontWeight: 700 }}>Sarah Juma</span>
+                                            <span style={{ fontSize: '12px', color: '#64748b' }}>Software Engineer</span>
                                         </div>
                                     </div>
                                     <Link href="/ai-companion" className={styles.cardLink}>
-                                        Chat Now <ArrowRightIcon />
+                                        Message <ArrowRightIcon />
                                     </Link>
                                 </>
                             )}

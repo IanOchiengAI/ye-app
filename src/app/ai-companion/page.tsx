@@ -1,10 +1,17 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, memo, lazy, Suspense } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
+import { getKenyaAIResponse, quickPrompts, swahiliResponses } from '@/lib/aiKnowledge';
+import { trackAIChat, trackPremiumUpgrade } from '@/lib/analytics';
 import styles from './ai-companion.module.css';
 
+// Dynamic imports for code splitting
+const PremiumUpsellModal = lazy(() => import('@/components/ai/PremiumUpsellModal'));
+const ChatMessage = lazy(() => import('@/components/ai/ChatMessage'));
+
+// Re-export Message type from ChatMessage component
 interface Message {
     id: number;
     type: 'user' | 'ai';
@@ -12,193 +19,10 @@ interface Message {
     timestamp: Date;
 }
 
-// Kenya-specific AI Knowledge Base
-const kenyaKnowledge = {
-    // CBC Curriculum Topics
-    cbc: {
-        levels: ['Pre-Primary (PP1-PP2)', 'Lower Primary (Grade 1-3)', 'Upper Primary (Grade 4-6)', 'Junior School (Grade 7-9)', 'Senior School (Grade 10-12)'],
-        subjects: ['Mathematics', 'English', 'Kiswahili', 'Science & Technology', 'Social Studies', 'Creative Arts', 'Agriculture', 'Home Science'],
-        competencies: ['Communication & Collaboration', 'Critical Thinking & Problem Solving', 'Creativity & Imagination', 'Citizenship', 'Digital Literacy', 'Learning to Learn', 'Self-Efficacy'],
-        tips: [
-            "CBC focuses on competencies, not just passing exams. Practice applying what you learn to real-life situations! 📚",
-            "Group projects are important in CBC - they build collaboration skills employers value! 🤝",
-            "Keep a portfolio of your best work. It shows your growth and achievements! 🌟",
-            "Don't worry too much about memorization. Focus on understanding concepts deeply. 🧠"
-        ]
-    },
-    // Exam preparation
-    exams: {
-        kcpe: [
-            "KCPE ni muhimu, lakini si mwisho wa dunia. Focus on understanding, not cramming! 📖",
-            "Past papers are your best friend! Practice KCPE papers from the last 5 years. 📝",
-            "Balance your subjects - don't neglect any. All subjects count equally! ⚖️"
-        ],
-        kcse: [
-            "Start KCSE prep early! Form 3 topics often appear in the exams. 🎯",
-            "Choose your cluster subjects wisely based on your career goals. 🔮",
-            "Group study helps - teach others and you'll remember better! 👥"
-        ],
-        general: [
-            "Panga muda wako vizuri! Make a study timetable and stick to it. ⏰",
-            "Take short breaks every 45 minutes - your brain needs rest to absorb info! 🧘",
-            "Sleep is important! 7-8 hours helps your brain remember what you studied. 😴"
-        ]
-    },
-    // Career guidance for Kenyan context
-    careers: {
-        inDemand: ['Technology & Software', 'Healthcare', 'Agriculture & Agribusiness', 'Finance & M-Pesa', 'Creative Industries', 'Renewable Energy'],
-        paths: [
-            "Many successful Kenyans started with what they had. Hustler mentality + education = success! 💪",
-            "Consider TVET (Technical colleges) - artisans and technicians are highly needed! 🔧",
-            "Entrepreneurship is huge in Kenya - start small while still in school! 📈",
-            "Digital skills can earn you money online. Learn coding, design, or digital marketing! 💻"
-        ]
-    },
-    // Financial literacy for Kenyan youth
-    finance: {
-        tips: [
-            "M-Pesa savings (M-Shwari, Fuliza) can help you save small amounts that grow! 💰",
-            "Avoid loan apps with high interest rates - they can trap you in debt! ⚠️",
-            "Start a chama (savings group) with friends - it builds discipline! 🤝",
-            "Learn about Sacco's - they offer better loan rates than banks! 🏦"
-        ],
-        entrepreneurship: [
-            "Many businesses can start with just 1,000 KES - selling snacks, phone accessories, etc. 📱",
-            "Online businesses on Instagram and TikTok are booming - content is king! 📸",
-            "Learn from the jua kali sector - innovation with limited resources! 🔨"
-        ]
-    },
-    // Mental health in African context
-    mentalHealth: {
-        responses: [
-            "Ni sawa kuhisi overwhelmed. Talking about it is the first step to feeling better. 💙",
-            "Mental health matters! It's not 'madness' - it's normal to struggle sometimes. 🌈",
-            "Talk to a trusted teacher, parent, or counselor. Asking for help is strength! 💪",
-            "Uko sio peke yako. Many students feel the same way - you're not alone. 🤗"
-        ],
-        coping: [
-            "Take deep breaths: Pumua ndani... exhale taratibu. Repeat 5 times. 🧘",
-            "Go outside - a short walk in the sun can boost your mood! ☀️",
-            "Write down your worries. Sometimes putting them on paper helps. 📝",
-            "Listen to your favorite music - it can change your mood! 🎵"
-        ]
-    }
-};
-
-// Swahili/Sheng phrases and responses
-const swahiliResponses = {
-    greetings: [
-        "Habari yako! 👋 Niko hapa kukusaidia. What's on your mind today?",
-        "Sasa! 🌟 How can I help you leo?",
-        "Mambo vipi? 💙 Ready to learn something new together?",
-    ],
-    encouragement: [
-        "Umeaminia! You've got this! Every small step counts. 💪",
-        "Pole pole ndio mwendo. Take it one step at a time! 🐢",
-        "Hata Nairobi ilianza na block moja. Keep building! 🏗️",
-        "Hakuna matata! We'll figure this out together. 🦁",
-    ],
-    goodbye: [
-        "Kwaheri for now! Remember, wewe ni champion! 🏆",
-        "Tutaonana! Keep working hard and stay positive! 🌟",
-        "Usiku mwema! Rest well and come back stronger! 🌙"
-    ]
-};
-
-// Kenya-specific quick prompts
-const quickPrompts = [
-    { id: 1, text: "🧠 Ask about a topic", category: 'general' },
-    { id: 2, text: "🎯 Reflect on my goals", category: 'goals' },
-    { id: 3, text: "🗓️ Plan my week", category: 'planning' },
-];
-
-function getKenyaAIResponse(message: string, isPremium: boolean): string {
-    const lowerMessage = message.toLowerCase();
-
-    // Goal Reflections
-    if (lowerMessage.includes('reflect') || lowerMessage.includes('goal')) {
-        return "Reflection is where the real growth happens! ✨ What's one thing you did this week that moved you closer to your dream? (Even a small step counts!)";
-    }
-
-    // Planning
-    if (lowerMessage.includes('plan') || lowerMessage.includes('week')) {
-        return "Fail to plan, plan to fail! Let's break it down. What are your top 3 priorities for this week? 📝";
-    }
-
-    // Swahili/Sheng greeting detection
-    if (lowerMessage.includes('habari') || lowerMessage.includes('sasa') ||
-        lowerMessage.includes('mambo') || lowerMessage.includes('vipi') ||
-        lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
-        return swahiliResponses.greetings[Math.floor(Math.random() * swahiliResponses.greetings.length)];
-    }
-
-    // CBC Curriculum
-    if (lowerMessage.includes('cbc') || lowerMessage.includes('curriculum') ||
-        lowerMessage.includes('competenc') || lowerMessage.includes('masomo')) {
-        const tip = kenyaKnowledge.cbc.tips[Math.floor(Math.random() * kenyaKnowledge.cbc.tips.length)];
-        return `${tip}\n\nCBC focuses on 7 core competencies: ${kenyaKnowledge.cbc.competencies.slice(0, 3).join(', ')}... Would you like to know more about a specific subject or level?`;
-    }
-
-    // KCPE
-    if (lowerMessage.includes('kcpe') || lowerMessage.includes('grade 6') ||
-        lowerMessage.includes('primary exam')) {
-        return kenyaKnowledge.exams.kcpe[Math.floor(Math.random() * kenyaKnowledge.exams.kcpe.length)];
-    }
-
-    // KCSE
-    if (lowerMessage.includes('kcse') || lowerMessage.includes('form 4') ||
-        lowerMessage.includes('secondary exam')) {
-        return kenyaKnowledge.exams.kcse[Math.floor(Math.random() * kenyaKnowledge.exams.kcse.length)];
-    }
-
-    // General exam/study tips
-    if (lowerMessage.includes('exam') || lowerMessage.includes('study') ||
-        lowerMessage.includes('mtihani') || lowerMessage.includes('soma')) {
-        return kenyaKnowledge.exams.general[Math.floor(Math.random() * kenyaKnowledge.exams.general.length)];
-    }
-
-    // Career advice
-    if (lowerMessage.includes('career') || lowerMessage.includes('job') ||
-        lowerMessage.includes('kazi') || lowerMessage.includes('future')) {
-        const advice = kenyaKnowledge.careers.paths[Math.floor(Math.random() * kenyaKnowledge.careers.paths.length)];
-        return isPremium
-            ? `${advice}\n\n📊 Careers in demand in Kenya: ${kenyaKnowledge.careers.inDemand.join(', ')}. Would you like personalized career guidance based on your interests?`
-            : `${advice}\n\n🌟 Upgrade to Premium for personalized career path recommendations!`;
-    }
-
-    // Financial literacy
-    if (lowerMessage.includes('money') || lowerMessage.includes('pesa') ||
-        lowerMessage.includes('saving') || lowerMessage.includes('business') ||
-        lowerMessage.includes('mpesa') || lowerMessage.includes('finance')) {
-        const tips = [...kenyaKnowledge.finance.tips, ...kenyaKnowledge.finance.entrepreneurship];
-        return tips[Math.floor(Math.random() * tips.length)];
-    }
-
-    // Mental health
-    if (lowerMessage.includes('stress') || lowerMessage.includes('anxious') ||
-        lowerMessage.includes('sad') || lowerMessage.includes('depressed') ||
-        lowerMessage.includes('overwhelm') || lowerMessage.includes('worried') ||
-        lowerMessage.includes('nimechoka') || lowerMessage.includes('sijui')) {
-        const responses = [...kenyaKnowledge.mentalHealth.responses, ...kenyaKnowledge.mentalHealth.coping];
-        return responses[Math.floor(Math.random() * responses.length)];
-    }
-
-    // Mentor
-    if (lowerMessage.includes('mentor') || lowerMessage.includes('guidance') ||
-        lowerMessage.includes('advise')) {
-        return "Having a mentor can change your life! 🤝 Check out our 'Find a Mentor' section to connect with verified Kenyan professionals who want to help you succeed. Would you like tips on how to approach a mentor?";
-    }
-
-    // Goodbye
-    if (lowerMessage.includes('bye') || lowerMessage.includes('kwaheri') ||
-        lowerMessage.includes('thanks') || lowerMessage.includes('asante')) {
-        return swahiliResponses.goodbye[Math.floor(Math.random() * swahiliResponses.goodbye.length)];
-    }
-
-    // Default with encouragement
-    return swahiliResponses.encouragement[Math.floor(Math.random() * swahiliResponses.encouragement.length)] +
-        "\n\nWhat would you like to explore? I can help with CBC, exams, career advice, or just chat! 💬";
-}
+// Loading fallback for lazy components
+const MessageSkeleton = () => (
+    <div className={styles.messageBubble} style={{ background: '#f3f4f6', minWidth: '200px', height: '60px' }} />
+);
 
 // Cache for offline functionality
 const saveToCache = (messages: Message[]) => {

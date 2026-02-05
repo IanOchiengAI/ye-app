@@ -11,6 +11,7 @@ export default function MentorsPage() {
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [searchQuery, setSearchQuery] = useState('');
     const [requestSent, setRequestSent] = useState<string | null>(null);
+    const [isPremiumMode, setIsPremiumMode] = useState(false);
 
     const filteredMentors = MENTORS.filter(mentor => {
         const matchesCategory = selectedCategory === 'All' || mentor.expertise.includes(selectedCategory);
@@ -49,18 +50,33 @@ export default function MentorsPage() {
             <main className={styles.main}>
                 {/* Search & Filter */}
                 <section className={styles.searchSection}>
-                    <div className={styles.searchBar}>
-                        <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2">
-                            <circle cx="11" cy="11" r="8" />
-                            <path d="M21 21l-4.35-4.35" />
-                        </svg>
-                        <input
-                            type="text"
-                            placeholder="Search by name or role..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                        />
+                    <div className={styles.searchControls}>
+                        <div className={styles.searchBar}>
+                            <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2">
+                                <circle cx="11" cy="11" r="8" />
+                                <path d="M21 21l-4.35-4.35" />
+                            </svg>
+                            <input
+                                type="text"
+                                placeholder="Search by name or role..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                        </div>
+
+                        <div className={styles.premiumToggleWrapper}>
+                            <label className={styles.toggleLabel}>
+                                <span className={styles.toggleText}>💎 Premium Mode</span>
+                                <div
+                                    className={`${styles.toggleSwitch} ${isPremiumMode ? styles.active : ''}`}
+                                    onClick={() => setIsPremiumMode(!isPremiumMode)}
+                                >
+                                    <div className={styles.toggleSlider}></div>
+                                </div>
+                            </label>
+                        </div>
                     </div>
+
                     <div className={styles.categories}>
                         {categories.map(cat => (
                             <button
@@ -77,15 +93,21 @@ export default function MentorsPage() {
                 {/* Mentors List */}
                 <div className={styles.mentorsGrid}>
                     {filteredMentors.map(mentor => (
-                        <div key={mentor.id} className={styles.mentorCard}>
+                        <div key={mentor.id} className={`${styles.mentorCard} ${isPremiumMode ? styles.premiumCard : ''}`}>
                             <div className={styles.cardHeader}>
                                 <div className={styles.mentorAvatar}>
-                                    {/* Using img tag to avoid domain config issues during demo */}
                                     <img
                                         src={mentor.imageUrl}
                                         alt={mentor.name}
                                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                     />
+                                    {isPremiumMode && (
+                                        <div className={styles.verifiedBadge}>
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="white">
+                                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                                            </svg>
+                                        </div>
+                                    )}
                                 </div>
                                 {mentor.available ? (
                                     <span className={styles.statusAvailable}>Available</span>
@@ -95,7 +117,10 @@ export default function MentorsPage() {
                             </div>
 
                             <div className={styles.cardContent}>
-                                <h3>Meet {mentor.name.split(' ')[0]}</h3>
+                                <h3>
+                                    Meet {mentor.name.split(' ')[0]}
+                                    {isPremiumMode && <span className={styles.premiumStar}>⭐</span>}
+                                </h3>
                                 <p className={styles.role}>{mentor.role} @ {mentor.company}</p>
 
                                 <div className={styles.storySection}>
@@ -116,18 +141,29 @@ export default function MentorsPage() {
                             </div>
 
                             <div className={styles.cardActions}>
-                                {requestSent === mentor.id ? (
-                                    <button className={`${styles.requestBtn} ${styles.sent}`} disabled>
-                                        Request Sent ✓
-                                    </button>
+                                {isPremiumMode ? (
+                                    <div className={styles.premiumActions}>
+                                        <button className={styles.videoBtn}>
+                                            📹 Video Call
+                                        </button>
+                                        <button className={styles.bookBtn}>
+                                            📅 Book Now
+                                        </button>
+                                    </div>
                                 ) : (
-                                    <button
-                                        className={styles.requestBtn}
-                                        disabled={!mentor.available}
-                                        onClick={() => handleRequestMentor(mentor.id)}
-                                    >
-                                        {mentor.available ? 'Request Mentorship' : 'Unavailable'}
-                                    </button>
+                                    requestSent === mentor.id ? (
+                                        <button className={`${styles.requestBtn} ${styles.sent}`} disabled>
+                                            Request Sent ✓
+                                        </button>
+                                    ) : (
+                                        <button
+                                            className={styles.requestBtn}
+                                            disabled={!mentor.available}
+                                            onClick={() => handleRequestMentor(mentor.id)}
+                                        >
+                                            {mentor.available ? 'Request Mentorship' : 'Unavailable'}
+                                        </button>
+                                    )
                                 )}
                             </div>
                         </div>

@@ -281,3 +281,129 @@
     border-radius: var(--radius-lg);
     cursor: pointer;
 }
+
+/* Premium Toggles */
+.searchControls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+}
+
+.searchBar {
+    margin-bottom: 0;
+    flex: 1;
+}
+
+.premiumToggleWrapper {
+    display: flex;
+    align-items: center;
+}
+
+.toggleLabel {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    cursor: pointer;
+}
+
+.toggleText {
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+}
+
+.toggleSwitch {
+    width: 44px;
+    height: 24px;
+    background-color: var(--color-bg-secondary);
+    border-radius: 999px;
+    position: relative;
+    transition: background-color var(--transition-fast);
+}
+
+.toggleSwitch.active {
+    background-color: var(--color-primary);
+}
+
+.toggleSlider {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: transform var(--transition-fast);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.toggleSwitch.active .toggleSlider {
+    transform: translateX(20px);
+}
+
+/* Premium Card Styles */
+.premiumCard {
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.1);
+}
+
+.mentorAvatar {
+    position: relative;
+}
+
+.verifiedBadge {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    background-color: #1DA1F2;
+    border: 2px solid white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.premiumStar {
+    font-size: 0.8em;
+    margin-left: 4px;
+}
+
+.premiumActions {
+    display: flex;
+    gap: var(--space-2);
+}
+
+.videoBtn {
+    flex: 1;
+    padding: var(--space-2);
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.bookBtn {
+    flex: 1;
+    padding: var(--space-2);
+    background-color: rgba(255, 215, 0, 0.1);
+    color: #B45309;
+    /* Dark gold */
+    border: 1px solid #FCD34D;
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}

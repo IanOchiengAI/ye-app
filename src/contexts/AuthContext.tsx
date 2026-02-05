@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, ReactNode, useCallback } from 'react';
 import {
     User,
     onAuthStateChanged,
@@ -12,6 +12,7 @@ import {
 } from 'firebase/auth';
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase';
+import { getUserFriendlyError } from '@/utils/errorMessages';
 
 // User profile type
 export interface UserProfile {
@@ -47,6 +48,7 @@ interface AuthContextType {
     logOut: () => Promise<void>;
     resetPassword: (email: string) => Promise<void>;
     updateUserProfile: (data: Partial<UserProfile>) => Promise<void>;
+    clearMockData: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -57,17 +59,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
+    // Debounced localStorage persistence to reduce I/O
+    const saveToStorage = useCallback((key: string, value: any) => {
+        try {
+            localStorage.setItem(key, JSON.stringify(value));
+        } catch (e) {
+            console.error('Failed to save to localStorage:', e);
+        }
+    }, []);
+
     // Listen to auth state changes
     useEffect(() => {
-        // Optimistic load from localStorage for instant UI
+        // Optimistic load from localStorage for instant UI (only on mount)
         const storedUser = localStorage.getItem('ye_user');
         const storedProfile = localStorage.getItem('ye_profile');
 
         if (storedUser && storedProfile) {
             try {
-                setUser(JSON.parse(storedUser));
-                setProfile(JSON.parse(storedProfile));
-                setLoading(false);
+                const parsedUser = JSON.parse(storedUser);
+                const parsedProfile = JSON.parse(storedProfile);
+                setUser(parsedUser);
+                setProfile(parsedProfile);
             } catch (e) {
                 console.error("Error parsing stored auth:", e);
                 localStorage.removeItem('ye_user');
@@ -132,15 +144,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 // Simulate network delay
                 await new Promise(resolve => setTimeout(resolve, 1000));
 
+                // Mock Database persistence
+                const mockAccountsJson = localStorage.getItem('ye_mock_accounts');
+                // Filter out corrupted records to prevent crashes
+                const mockAccounts = mockAccountsJson
+                    ? JSON.parse(mockAccountsJson).filter((acc: any) => acc && acc.email)
+                    : [];
+
+                // Check if email already exists
+                if (mockAccounts.some((acc: any) => acc.email.toLowerCase() === email.toLowerCase())) {
+                    throw new Error('An account with this email already exists.');
+                }
+
+                const uid = 'mock-user-' + Date.now();
                 const mockUser = {
-                    uid: 'mock-user-' + Date.now(),
-                    email,
+                    uid,
+                    email: email.toLowerCase(),
                     displayName,
+                    photoURL: null,
+                    emailVerified: false
                 } as User;
 
                 const mockProfile: UserProfile = {
-                    uid: mockUser.uid,
-                    email,
+                    uid,
+                    email: email.toLowerCase(),
                     displayName,
                     photoURL: null,
                     role,
@@ -150,11 +177,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                     createdAt: new Date(),
                 };
 
+                // Save to "Database" - Clone array to avoid mutation issues
+                const updatedAccounts = [...mockAccounts, { uid, email: email.toLowerCase(), password, profile: mockProfile }];
+                localStorage.setItem('ye_mock_accounts', JSON.stringify(updatedAccounts));
+
+                // Force layout reflow/reload simulation for persistence
                 setUser(mockUser);
                 setProfile(mockProfile);
 
                 localStorage.setItem('ye_user', JSON.stringify(mockUser));
                 localStorage.setItem('ye_profile', JSON.stringify(mockProfile));
+
+                // Add tiny delay to ensure storage write completes
+                await new Promise(resolve => setTimeout(resolve, 100));
+
                 return;
             }
 
@@ -184,9 +220,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             setProfile(newProfile);
             localStorage.setItem('ye_profile', JSON.stringify(newProfile));
         } catch (err: unknown) {
-            const errorMessage = err instanceof Error ? err.message : 'Failed to sign up';
+            const errorMessage = getUserFriendlyError(err);
             setError(errorMessage);
-            throw err;
+            throw new Error(errorMessage);
         }
     };
 
@@ -201,39 +237,36 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 // Simulate network delay
                 await new Promise(resolve => setTimeout(resolve, 800));
 
-                if (password === 'fail') throw new Error('Invalid credentials (mock)');
+                const mockAccountsJson = localStorage.getItem('ye_mock_accounts');
+                const mockAccounts = mockAccountsJson ? JSON.parse(mockAccountsJson) : [];
+
+                const account = mockAccounts.find((acc: any) =>
+                    acc.email.toLowerCase() === email.toLowerCase() && acc.password === password
+                );
+
+                if (!account) {
+                    throw new Error('Invalid email or password. (Mock Mode: Use an account you signed up with)');
+                }
 
                 const mockUser = {
-                    uid: 'mock-user-123',
-                    email,
-                    displayName: 'Demo User',
+                    uid: account.uid,
+                    email: account.email,
+                    displayName: account.profile.displayName,
                 } as User;
 
-                const mockProfile: UserProfile = {
-                    uid: 'mock-user-123',
-                    email,
-                    displayName: 'Demo User',
-                    photoURL: null,
-                    role: 'mentee',
-                    age: 20,
-                    onboardingComplete: true,
-                    parentalConsentVerified: true,
-                    createdAt: new Date(),
-                };
-
                 setUser(mockUser);
-                setProfile(mockProfile);
+                setProfile(account.profile);
 
                 localStorage.setItem('ye_user', JSON.stringify(mockUser));
-                localStorage.setItem('ye_profile', JSON.stringify(mockProfile));
+                localStorage.setItem('ye_profile', JSON.stringify(account.profile));
                 return;
             }
 
             await signInWithEmailAndPassword(auth, email, password);
         } catch (err: unknown) {
-            const errorMessage = err instanceof Error ? err.message : 'Failed to sign in';
+            const errorMessage = getUserFriendlyError(err);
             setError(errorMessage);
-            throw err;
+            throw new Error(errorMessage);
         }
     };
 
@@ -260,9 +293,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 // Ignore if Firebase not initialized (mock mode)
             }
         } catch (err: unknown) {
-            const errorMessage = err instanceof Error ? err.message : 'Failed to sign out';
+            const errorMessage = getUserFriendlyError(err);
             setError(errorMessage);
-            throw err;
+            throw new Error(errorMessage);
         }
     };
 
@@ -272,9 +305,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             setError(null);
             await sendPasswordResetEmail(auth, email);
         } catch (err: unknown) {
-            const errorMessage = err instanceof Error ? err.message : 'Failed to reset password';
+            const errorMessage = getUserFriendlyError(err);
             setError(errorMessage);
-            throw err;
+            throw new Error(errorMessage);
         }
     };
 
@@ -310,10 +343,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 return newProfile;
             });
         } catch (err: unknown) {
-            const errorMessage = err instanceof Error ? err.message : 'Failed to update profile';
+            const errorMessage = getUserFriendlyError(err);
             setError(errorMessage);
-            throw err;
+            throw new Error(errorMessage);
         }
+    };
+
+    // Clear all mock data for testing
+    const clearMockData = () => {
+        localStorage.removeItem('ye_mock_accounts');
+        localStorage.removeItem('ye_user');
+        localStorage.removeItem('ye_profile');
+        setUser(null);
+        setProfile(null);
+        window.location.reload(); // Refresh to ensure clean state
     };
 
     const value: AuthContextType = {
@@ -326,6 +369,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         logOut,
         resetPassword,
         updateUserProfile,
+        clearMockData,
     };
 
     return (

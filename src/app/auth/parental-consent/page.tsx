@@ -27,7 +27,7 @@ export default function ParentalConsentPage() {
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [loading, setLoading] = useState(false);
     const [step, setStep] = useState<'form' | 'verification' | 'success'>('form');
-    const { signUp } = useAuth();
+    const { signUp, clearMockData } = useAuth();
 
     const validateForm = () => {
         const newErrors: Record<string, string> = {};
@@ -99,10 +99,11 @@ export default function ParentalConsentPage() {
                         'mentee'
                     );
                     setStep('success');
-                } catch (error) {
+                } catch (error: any) {
                     console.error('Auto-signup error:', error);
-                    setErrors({ general: 'Failed to finalize account creation.' });
-                    setStep('form'); // Go back to form on error
+                    setErrors({ general: (error as Error).message || 'Failed to finalize account creation.' });
+                    setStep('form');
+                    setLoading(false);
                 }
             }, 2500);
 
@@ -210,6 +211,14 @@ export default function ParentalConsentPage() {
                     {errors.general && (
                         <div className="alert alert-error">
                             {errors.general}
+                            {errors.general.includes('exists') && (
+                                <button
+                                    onClick={() => clearMockData()}
+                                    className={styles.devResetBtn}
+                                >
+                                    Developer: Click to force-clear all mock accounts
+                                </button>
+                            )}
                         </div>
                     )}
 
@@ -267,6 +276,10 @@ export default function ParentalConsentPage() {
                             <p className={styles.inputHint}>
                                 We&apos;ll send a verification link to this email.
                             </p>
+                            <div className={styles.demoNotice}>
+                                <span className={styles.demoBadge}>DEMO MODE</span>
+                                <p>Email verification is simulated. No real email will be sent.</p>
+                            </div>
                         </div>
 
                         {/* Guardian Phone (Optional) */}

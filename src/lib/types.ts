@@ -28,6 +28,7 @@ export interface Module {
     content: ModuleContent;
     quiz: Question[];
     order: number;
+    isPremium?: boolean;
 }
 
 export interface UserModuleProgress {

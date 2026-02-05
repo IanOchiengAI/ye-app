@@ -70,10 +70,10 @@ export default function Home() {
                     </Link>
 
                     <div className={styles.navLinks}>
+                        <Link href="#rafiki" className={styles.navLink}>🦁 Rafiki AI</Link>
                         <Link href="#impact" className={styles.navLink}>Our Impact</Link>
                         <Link href="#features" className={styles.navLink}>Features</Link>
                         <Link href="#testimonials" className={styles.navLink}>Stories</Link>
-                        <Link href="#mentors" className={styles.navLink}>Mentors</Link>
                     </div>
 
                     <div className={styles.authButtons}>
@@ -104,25 +104,25 @@ export default function Home() {
             {/* Hero Section */}
             <section className={styles.hero}>
                 <div className={styles.heroContent}>
-                    <span className={styles.heroBadge}>✨ The Home of Kenyan Excellence</span>
+                    <span className={styles.heroBadge}>✨ Trusted by 15,000+ Kenyan Students</span>
                     <h1 className={styles.heroTitle}>
-                        Ready to Become <span className={styles.highlight}>Unstoppable?</span>
+                        From Student to <span className={styles.highlight}>Professional in 30 Days</span>
                     </h1>
                     <p className={styles.heroDescription}>
-                        Stop guessing your future. Master high-income life skills, grab certified credentials, and get mentored by Kenya&apos;s industry giants. Your dream career starts here.
+                        Meet Rafiki, your AI study buddy who speaks Kiswahili! Join 15,000+ Kenyan students learning financial literacy, career planning, and professional skills—with 24/7 AI support and mentors from Safaricom, Equity, and beyond.
                     </p>
                     <div className={styles.heroCta}>
                         <Link href="/auth/signup" className="btn btn-primary btn-lg" style={{ background: 'linear-gradient(90deg, #FFD700, #FFA500)', border: 'none', color: '#0f0c29', fontWeight: 800 }}>
-                            Join the Movement →
+                            Start Learning Free →
                         </Link>
                         <Link href="#features" className={styles.secondaryCta}>
-                            <span>See our magic</span> ✨
+                            <span>Watch 2-Min Demo</span> ▶
                         </Link>
                     </div>
                     <div className={styles.heroStats}>
-                        <div><strong>4.9/5</strong> Star Rating</div>
-                        <div><strong>Free</strong> Forever</div>
-                        <div><strong>Offline</strong> Mode</div>
+                        <div><strong>4.9/5</strong> Student Rating</div>
+                        <div><strong>100%</strong> Free Access</div>
+                        <div><strong>Offline</strong> Ready</div>
                     </div>
                 </div>
                 <div className={styles.heroImage}>
@@ -149,6 +149,74 @@ export default function Home() {
                 </div>
             </section>
 
+            {/* Meet Rafiki - Dedicated AI Section */}
+            <section className={styles.rafikiSection} id="rafiki">
+                <div className={styles.rafikiContent}>
+                    <div className={styles.rafikiInfo}>
+                        <span className={styles.rafikiLabel}>🤖 AI-Powered Learning</span>
+                        <h2 className={styles.rafikiTitle}>
+                            Meet <span className={styles.rafikiName}>Rafiki</span> 🦁
+                        </h2>
+                        <p className={styles.rafikiSubtitle}>
+                            Your 24/7 AI Study Buddy Who Gets Kenya
+                        </p>
+                        <p className={styles.rafikiDescription}>
+                            Stuck on CBC homework? Need KCSE prep tips? Wondering about careers in Kenya?
+                            Rafiki speaks your language—literally. Chat in English, Kiswahili, or even Sheng!
+                        </p>
+
+                        <ul className={styles.rafikiFeatures}>
+                            <li><span>📚</span> Understands CBC Curriculum & KCSE</li>
+                            <li><span>🗣️</span> Speaks English, Kiswahili & Sheng</li>
+                            <li><span>💼</span> Career advice for Kenyan job market</li>
+                            <li><span>🧠</span> Mental wellness & study tips</li>
+                            <li><span>📴</span> Works offline when internet is down</li>
+                            <li><span>🆓</span> Free for all students</li>
+                        </ul>
+
+                        <div className={styles.rafikiCta}>
+                            <Link href="/ai-companion" className="btn btn-primary btn-lg" style={{ background: 'linear-gradient(135deg, #1A1A5E 0%, #3B3B9E 100%)', border: 'none' }}>
+                                Chat with Rafiki Now →
+                            </Link>
+                            <span className={styles.rafikiNote}>No signup required • Instant answers</span>
+                        </div>
+                    </div>
+
+                    <div className={styles.rafikiDemo}>
+                        <div className={styles.rafikiMascot}>
+                            <div className={styles.mascotEmoji}>🦁</div>
+                            <div className={styles.mascotGlow}></div>
+                        </div>
+                        <div className={styles.rafikiChat}>
+                            <div className={styles.chatBubbleAi}>
+                                <span className={styles.chatAvatar}>✨</span>
+                                <div>
+                                    <strong>Rafiki</strong>
+                                    <p>Habari! 👋 Mimi ni Rafiki, your AI companion. Ask me anything about school, careers, or life!</p>
+                                </div>
+                            </div>
+                            <div className={styles.chatBubbleUser}>
+                                How do I prepare for KCSE in Form 3?
+                            </div>
+                            <div className={styles.chatBubbleAi}>
+                                <span className={styles.chatAvatar}>✨</span>
+                                <div>
+                                    <p>Great question! Start early—Form 3 topics are 60% of KCSE! Here&apos;s my top tips:</p>
+                                    <p>📖 Focus on understanding, not cramming<br />
+                                        📝 Practice past papers from last 5 years<br />
+                                        👥 Form study groups for tough subjects</p>
+                                </div>
+                            </div>
+                            <div className={styles.chatPrompts}>
+                                <button>💰 Money tips</button>
+                                <button>🎯 Career paths</button>
+                                <button>📚 Study help</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* Impact Stats */}
             <section className={styles.statsSection} id="impact">
                 <div className={styles.statsGrid}>
@@ -164,10 +232,10 @@ export default function Home() {
             {/* Features Section */}
             <section className={styles.featuresSection} id="features">
                 <div className={styles.sectionHeader}>
-                    <span className={styles.sectionBadge}>Your Ultimate Toolkit</span>
-                    <h2 className={styles.sectionTitle}>Built for Winners</h2>
+                    <span className={styles.sectionBadge}>Your Learning Toolkit</span>
+                    <h2 className={styles.sectionTitle}>Skills That Employers Value</h2>
                     <p className={styles.sectionSubtitle}>
-                        We&apos;ve condensed years of life experience into a platform that makes success inevitable.
+                        We&apos;ve built a platform that transforms students into job-ready professionals through practical, real-world education.
                     </p>
                 </div>
 
@@ -175,19 +243,19 @@ export default function Home() {
                 <div className={styles.featureRow}>
                     <div className={styles.featureContent}>
                         <span className={styles.featureIcon}>⚡</span>
-                        <h3>Skills That Pay the Bills</h3>
+                        <h3>Learn Skills Employers Actually Need</h3>
                         <p>
-                            Don&apos;t just study — evolve. From mastering your first million to crushing public speaking, our modules are short, punchy, and life-changing.
+                            Don&apos;t just memorize—master practical abilities that translate to real career opportunities. From financial literacy to public speaking, our modules are designed for the Kenyan job market.
                         </p>
                         <ul className={styles.featureList}>
-                            <li>🔥 High-impact financial literacy</li>
-                            <li>🔥 Modern career pathfinding</li>
-                            <li>🔥 Mental health for high-performers</li>
+                            <li>💰 Build your first budget and savings plan</li>
+                            <li>🎯 Discover career paths in Kenya&apos;s top industries</li>
+                            <li>🧠 Develop confidence and mental resilience</li>
                         </ul>
-                        <Link href="/modules" className="btn btn-outline" style={{ color: '#FFD700', borderColor: '#FFD700' }}>Start Learning Now</Link>
+                        <Link href="/modules" className="btn btn-outline" style={{ color: '#FFD700', borderColor: '#FFD700' }}>Explore Courses</Link>
                     </div>
                     <div className={styles.featureImage}>
-                        <Image src={IMAGES.learning} alt="High quality learning platform" width={500} height={350} style={{ borderRadius: '16px', objectFit: 'cover' }} />
+                        <Image src={IMAGES.learning} alt="High quality learning platform" width={500} height={350} loading="lazy" style={{ borderRadius: '16px', objectFit: 'cover' }} />
                     </div>
                 </div>
 
@@ -195,19 +263,19 @@ export default function Home() {
                 <div className={`${styles.featureRow} ${styles.featureRowReverse}`}>
                     <div className={styles.featureContent}>
                         <span className={styles.featureIcon}>👑</span>
-                        <h3>Access to the Inner Circle</h3>
+                        <h3>Get Mentored by Industry Leaders</h3>
                         <p>
-                            Who you know matters. Get direct access to the leaders driving Kenya&apos;s economy. Real talk, real advice, real results.
+                            Who you know opens doors. Connect with professionals from Safaricom, Equity Bank, and other leading Kenyan companies for career guidance, industry insights, and networking.
                         </p>
                         <ul className={styles.featureList}>
-                            <li>💎 1-on-1 VIP Mentorship</li>
-                            <li>💎 Insider industry tips</li>
-                            <li>💎 Networking like a pro</li>
+                            <li>🤝 1-on-1 mentor matching based on your goals</li>
+                            <li>💼 Insider tips on breaking into your dream field</li>
+                            <li>🌟 Build connections that last beyond graduation</li>
                         </ul>
-                        <Link href="/mentors" className="btn btn-outline" style={{ color: '#00d4ff', borderColor: '#00d4ff' }}>Meet Your Mentor</Link>
+                        <Link href="/mentors" className="btn btn-outline" style={{ color: '#00d4ff', borderColor: '#00d4ff' }}>Find Your Mentor</Link>
                     </div>
                     <div className={styles.featureImage}>
-                        <Image src={IMAGES.mentorship} alt="Mentor connection" width={500} height={350} style={{ borderRadius: '16px', objectFit: 'cover' }} />
+                        <Image src={IMAGES.mentorship} alt="Mentor connection" width={500} height={350} loading="lazy" style={{ borderRadius: '16px', objectFit: 'cover' }} />
                     </div>
                 </div>
 
@@ -215,14 +283,14 @@ export default function Home() {
                 <div className={styles.featureRow}>
                     <div className={styles.featureContent}>
                         <span className={styles.featureIcon}>🧠</span>
-                        <h3>Your Personal Study Guide</h3>
+                        <h3>Your AI Study Partner, Rafiki</h3>
                         <p>
-                            Rafiki isn&apos;t just a chatbot — it&apos;s a study partner that never gets tired. Stuck on a math problem or need advice in Sheng? Rafiki is here to help you understand, not just answer.
+                            Stuck on homework or need career advice? Rafiki is your 24/7 AI tutor trained on the Kenyan curriculum and job market. Ask questions in English, Swahili, or Sheng—Rafiki gets you.
                         </p>
                         <ul className={styles.featureList}>
-                            <li>🚀 clear explanations for difficult topics</li>
-                            <li>🚀 Practice questions for KCSE</li>
-                            <li>🚀 Multilingual Support (Swahili/Sheng)</li>
+                            <li>📚 KCSE prep and CBC curriculum help</li>
+                            <li>💭 Career guidance tailored to Kenya</li>
+                            <li>🌍 Chat in your language (English/Swahili/Sheng)</li>
                         </ul>
                         <Link href="/ai-companion" className="btn btn-primary" style={{ background: '#1A1A5E', border: 'none' }}>Chat with Rafiki</Link>
                     </div>
@@ -262,8 +330,8 @@ export default function Home() {
             {/* CTA Section */}
             <section className={styles.ctaSection}>
                 <div className={styles.ctaContent}>
-                    <h2>Ready to Transform Your Future?</h2>
-                    <p>Join thousands of Kenyan youth who are building the skills, connections, and confidence to succeed.</p>
+                    <h2>Ready to Build Your Future?</h2>
+                    <p>Join 15,000+ Kenyan students who are gaining the skills, connections, and confidence to succeed in their careers.</p>
                     <Link href="/auth/signup" className="btn btn-lg" style={{ background: 'var(--color-yellow)', color: 'var(--color-primary)' }}>
                         Start Your Journey — It&apos;s Free
                     </Link>

@@ -245,6 +245,84 @@ export const CORE_MODULES: Module[] = [
                 correctAnswer: 2
             }
         ]
+
+    },
+    {
+        id: '6',
+        title: 'Side Hustle 101',
+        description: 'Start a business with zero capital using Jiji, Facebook, and WhatsApp.',
+        thumbnail: '📱',
+        category: 'Career',
+        order: 6,
+        isPremium: false,
+        video: {
+            url: 'HAnw168huqA',
+            duration: '10:00'
+        },
+        content: {
+            intro: "You don't need a shop to start a business. Your phone is your shop.",
+            sections: [
+                {
+                    title: "Selling on WhatsApp Status",
+                    body: "Your contacts are your first customers. Post clear photos with prices."
+                }
+            ]
+        },
+        quiz: []
+    },
+    {
+        id: '7',
+        title: 'Smart Farming (Kilimo)',
+        description: 'Make money from urban farming: Tomatoes, Chicken, and Vertical Gardens.',
+        thumbnail: '🌱',
+        category: 'Career',
+        order: 7,
+        isPremium: true,
+        video: {
+            url: 'HAnw168huqA',
+            duration: '25:00'
+        },
+        content: {
+            intro: "Farming isn't just for shags. You can make 50k/month from a small balcony.",
+            sections: []
+        },
+        quiz: []
+    },
+    {
+        id: '8',
+        title: 'Chama Wealth Secrets',
+        description: 'How to turn your Table Banking group into an investment powerhouse.',
+        thumbnail: '🤝',
+        category: 'Life Skills',
+        order: 8,
+        isPremium: true,
+        video: {
+            url: 'HAnw168huqA',
+            duration: '20:00'
+        },
+        content: {
+            intro: "Don't just eat the money. Multiply it.",
+            sections: []
+        },
+        quiz: []
+    },
+    {
+        id: '9',
+        title: 'Digital Gigs (Ajira)',
+        description: 'Earn dollars online: Transcription, Writing, and Virtual Assistance.',
+        thumbnail: '💻',
+        category: 'Career',
+        order: 9,
+        isPremium: true,
+        video: {
+            url: 'HAnw168huqA',
+            duration: '30:00'
+        },
+        content: {
+            intro: "The world is hiring. Work from Nairobi for clients in New York.",
+            sections: []
+        },
+        quiz: []
     }
 ];
 

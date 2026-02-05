@@ -59,6 +59,7 @@ export default function ModulesPage() {
     // Celebration State
     const [showCelebration, setShowCelebration] = useState(false);
     const [showToast, setShowToast] = useState(false);
+    const [isPremiumMode, setIsPremiumMode] = useState(false);
 
     const handleSimulateComplete = () => {
         setShowCelebration(true);
@@ -68,6 +69,7 @@ export default function ModulesPage() {
     const getModuleStatus = (module: Module) => {
         if (completedModuleIds.includes(module.id)) return 'completed';
         if (module.id === currentModuleId) return 'in-progress';
+        if (module.isPremium && isPremiumMode) return 'available'; // Premium unlock
         if (module.order <= 5) return 'available'; // Temporary unlock logic
         return 'locked';
     };
@@ -78,6 +80,9 @@ export default function ModulesPage() {
         progress: m.id === currentModuleId ? 35 : 0, // Mock progress
         imageUrl: MODULE_IMAGES[m.id] || 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=400&q=80'
     }));
+
+    // Filter Logic: If !isPremiumMode, hide premium modules completely
+    const visibleModules = modulesWithStatus.filter(m => isPremiumMode ? true : !m.isPremium);
 
     const completedCount = modulesWithStatus.filter(m => m.status === 'completed').length;
     const totalProgress = Math.round(modulesWithStatus.reduce((sum, m) => sum + m.progress, 0) / CORE_MODULES.length);
@@ -110,7 +115,7 @@ export default function ModulesPage() {
                 onComplete={() => setShowCelebration(false)}
             />
             <Toast
-                message="Nice work! ✨ Keep the momentum going."
+                message="🎉 Module complete! You earned 50 XP and unlocked a new badge. Keep it up!"
                 isVisible={showToast}
                 onClose={() => setShowToast(false)}
             />
@@ -126,7 +131,7 @@ export default function ModulesPage() {
                             </div>
                             <div className={styles.overviewDivider} />
                             <div className={styles.overviewStat}>
-                                <span className={styles.overviewNumber}>{CORE_MODULES.length - completedCount}</span>
+                                <span className={styles.overviewNumber}>{visibleModules.length - completedCount}</span>
                                 <span className={styles.overviewLabel}>Remaining</span>
                             </div>
                             <div className={styles.overviewDivider} />
@@ -144,64 +149,83 @@ export default function ModulesPage() {
                     </div>
                 </section>
 
+                {/* Premium Toggle */}
+                <div className={styles.toggleContainer}>
+                    <label className={styles.toggleLabel}>
+                        <span className={styles.toggleText}>💎 Premium Content</span>
+                        <div
+                            className={`${styles.toggleSwitch} ${isPremiumMode ? styles.active : ''}`}
+                            onClick={() => setIsPremiumMode(!isPremiumMode)}
+                        />
+                    </label>
+                </div>
+
+
                 {/* In Progress */}
-                {modulesWithStatus.some(m => m.status === 'in-progress') && (
-                    <section className={styles.section}>
-                        <h2 className={styles.sectionTitle}>Continue Learning</h2>
-                        <div className={styles.modulesList}>
-                            {modulesWithStatus.filter(m => m.status === 'in-progress').map(module => (
-                                <Link
-                                    key={module.id}
-                                    href={`/modules/${module.id}`}
-                                    className={`${styles.moduleCard} ${styles.inProgress}`}
-                                >
-                                    <div
-                                        className={styles.moduleImage}
-                                        style={{ backgroundImage: `url(${module.imageUrl})` }}
-                                    />
-                                    <div className={styles.moduleContent}>
-                                        <span className={styles.moduleCategory}>{module.category}</span>
-                                        <h3>{module.title}</h3>
-                                        <p>{module.description}</p>
-                                        <div className={styles.moduleMeta}>
-                                            <span><PlayIcon /> {module.video.duration}</span>
+                {modulesWithStatus
+                    .filter(m => isPremiumMode ? true : !m.isPremium)
+                    .some(m => m.status === 'in-progress') && (
+                        <section className={styles.section}>
+                            <h2 className={styles.sectionTitle}>Continue Learning</h2>
+                            <div className={styles.modulesList}>
+                                {modulesWithStatus.filter(m => m.status === 'in-progress').map(module => (
+                                    <Link
+                                        key={module.id}
+                                        href={`/modules/${module.id}`}
+                                        className={`${styles.moduleCard} ${styles.inProgress}`}
+                                    >
+                                        <div
+                                            className={styles.moduleImage}
+                                            style={{ backgroundImage: `url(${module.imageUrl})` }}
+                                        />
+                                        <div className={styles.moduleContent}>
+                                            <span className={styles.moduleCategory}>{module.category}</span>
+                                            <h3>{module.title}</h3>
+                                            <p>{module.description}</p>
+                                            <div className={styles.moduleMeta}>
+                                                <span><PlayIcon /> {module.video.duration}</span>
+                                            </div>
+                                            <div className={styles.moduleProgress}>
+                                                <div
+                                                    className={styles.moduleProgressFill}
+                                                    style={{ width: `${module.progress}%` }}
+                                                />
+                                            </div>
+                                            <span className={styles.moduleProgressText}>{module.progress}% complete</span>
                                         </div>
-                                        <div className={styles.moduleProgress}>
-                                            <div
-                                                className={styles.moduleProgressFill}
-                                                style={{ width: `${module.progress}%` }}
-                                            />
-                                        </div>
-                                        <span className={styles.moduleProgressText}>{module.progress}% complete</span>
-                                    </div>
-                                    <span className={styles.continueBtn}>
-                                        Continue <ArrowRightIcon />
-                                    </span>
-                                </Link>
-                            ))}
-                        </div>
-                    </section>
-                )}
+                                        <span className={styles.continueBtn}>
+                                            Continue <ArrowRightIcon />
+                                        </span>
+                                    </Link>
+                                ))}
+                            </div>
+                        </section>
+                    )}
 
                 {/* Available Modules */}
                 <section className={styles.section}>
                     <h2 className={styles.sectionTitle}>Available Modules</h2>
                     <div className={styles.modulesGrid}>
-                        {modulesWithStatus.filter(m => m.status === 'available' || m.status === 'completed').map(module => (
+                        {visibleModules.filter(m => m.status === 'available' || m.status === 'completed').map(module => (
                             <Link
                                 key={module.id}
                                 href={`/modules/${module.id}`}
                                 className={`${styles.moduleCard} ${styles.available}`}
                             >
-                                {module.status === 'completed' && (
-                                    <span className={styles.completedBadge}>
-                                        <CheckIcon /> Completed
-                                    </span>
-                                )}
-                                <div
-                                    className={styles.moduleImage}
-                                    style={{ backgroundImage: `url(${module.imageUrl})` }}
-                                />
+                                <div className={styles.moduleThumb}>
+                                    {module.status === 'completed' && (
+                                        <span className={styles.completedBadgeAbsolute}>
+                                            <CheckIcon /> Completed
+                                        </span>
+                                    )}
+                                    {module.isPremium && (
+                                        <span className={styles.premiumBadge}>💎 Premium</span>
+                                    )}
+                                    <div
+                                        className={styles.moduleThumbImage}
+                                        style={{ backgroundImage: `url(${module.imageUrl})` }}
+                                    />
+                                </div>
                                 <div className={styles.moduleCardBody}>
                                     <span className={styles.moduleCategory}>{module.category}</span>
                                     <h3>{module.title}</h3>
@@ -216,29 +240,26 @@ export default function ModulesPage() {
                 </section>
 
                 {/* Locked Modules */}
-                {modulesWithStatus.some(m => m.status === 'locked') && (
+                {visibleModules.some(m => m.status === 'locked') && (
                     <section className={styles.section}>
                         <h2 className={styles.sectionTitle}>
                             Unlock More
                             <span className={styles.lockHint}>Complete previous modules to unlock</span>
                         </h2>
                         <div className={styles.modulesGrid}>
-                            {modulesWithStatus.filter(m => m.status === 'locked').map(module => (
-                                <div
-                                    key={module.id}
-                                    className={`${styles.moduleCard} ${styles.locked}`}
-                                >
-                                    <span className={styles.lockIcon}><LockIcon /></span>
-                                    <div
-                                        className={styles.moduleImage}
-                                        style={{ backgroundImage: `url(${module.imageUrl})` }}
-                                    />
-                                    <div className={styles.moduleCardBody}>
+                            {visibleModules.filter(m => m.status === 'locked').map(module => (
+                                <div key={module.id} className={`${styles.moduleCard} ${styles.locked}`}>
+                                    <div className={styles.moduleThumb} style={{ filter: 'grayscale(1)' }}>
+                                        <div className={styles.lockedOverlay}>
+                                            <LockIcon />
+                                        </div>
+                                    </div>
+                                    <div className={styles.moduleCardBody} style={{ opacity: 0.7 }}>
                                         <span className={styles.moduleCategory}>{module.category}</span>
                                         <h3>{module.title}</h3>
                                         <p>{module.description}</p>
                                         <div className={styles.moduleMeta}>
-                                            <span>Locked</span>
+                                            <span><PlayIcon /> {module.video.duration}</span>
                                         </div>
                                     </div>
                                 </div>

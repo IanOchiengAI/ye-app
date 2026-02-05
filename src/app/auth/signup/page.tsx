@@ -20,7 +20,7 @@ export default function SignUpPage() {
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [loading, setLoading] = useState(false);
     const [authMethod, setAuthMethod] = useState<'email' | 'phone'>('email');
-    const { signUp } = useAuth();
+    const { signUp, clearMockData } = useAuth();
 
     const validateForm = () => {
         const newErrors: Record<string, string> = {};
@@ -90,9 +90,9 @@ export default function SignUpPage() {
                 await signUp(formData.email, formData.password, formData.fullName, age, 'mentee');
                 router.push('/onboarding');
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error('Signup error:', error);
-            setErrors({ general: 'Failed to create account. Please try again.' });
+            setErrors({ general: error.message || 'Failed to create account. Please try again.' });
         } finally {
             setLoading(false);
         }
@@ -116,20 +116,20 @@ export default function SignUpPage() {
                         <span className={styles.logoAccent}>Educated</span>
                     </Link>
                     <div className={styles.brandContent}>
-                        <h1>It Starts With You(th)</h1>
-                        <p>Join us in empowering young people with essential life skills through Conversation, Choice, and Change.</p>
+                        <h1>Build Your Future with Youth Educated</h1>
+                        <p>Join 15,000+ students from top Kenyan schools gaining real-world skills for careers and life.</p>
                         <div className={styles.features}>
                             <div className={styles.feature}>
-                                <span>✓</span> Educated Futures Programme
+                                <span>✓</span> Learn from Safaricom engineers, Equity bankers, USAID mentors
                             </div>
                             <div className={styles.feature}>
-                                <span>✓</span> Brothers Keepers Programme
+                                <span>✓</span> Master financial literacy, career planning, and soft skills
                             </div>
                             <div className={styles.feature}>
-                                <span>✓</span> Life skills modules
+                                <span>✓</span> Get certified skills for your CV and future employers
                             </div>
                             <div className={styles.feature}>
-                                <span>✓</span> Mentorship support
+                                <span>✓</span> Free access forever—no credit card required
                             </div>
                         </div>
                     </div>
@@ -163,6 +163,14 @@ export default function SignUpPage() {
                     {errors.general && (
                         <div className="alert alert-error">
                             {errors.general}
+                            {errors.general.includes('exists') && (
+                                <button
+                                    onClick={() => clearMockData()}
+                                    className={styles.devResetBtn}
+                                >
+                                    Developer: Click to force-clear all mock accounts
+                                </button>
+                            )}
                         </div>
                     )}
 
@@ -231,7 +239,7 @@ export default function SignUpPage() {
                                         <line x1="12" y1="16" x2="12" y2="12"></line>
                                         <line x1="12" y1="8" x2="12.01" y2="8"></line>
                                     </svg>
-                                    Since you&apos;re under 18, we&apos;ll need your parent or guardian&apos;s consent.
+                                    Quick heads-up: We&apos;ll ask your parent/guardian to approve your account (takes 2 min). This keeps everyone safe! 📱
                                 </p>
                             )}
                         </div>
@@ -299,8 +307,8 @@ export default function SignUpPage() {
 
                     <div className={styles.footerText}>
                         <p>By signing up, you agree to receive updates about Youth Educated.</p>
-                        <p style={{ marginTop: '1rem' }}>
-                            Want to guide others? <Link href="/auth/mentor-signup" style={{ color: 'var(--color-primary)', fontWeight: 600 }}>Apply to be a Mentor</Link>
+                        <p className={styles.footerLinkContainer}>
+                            Want to guide others? <Link href="/auth/mentor-signup" className={styles.footerLink}>Apply to be a Mentor</Link>
                         </p>
                     </div>
                 </div>

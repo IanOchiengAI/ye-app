@@ -263,3 +263,366 @@
         transform: translateY(-8px);
     }
 }
+
+/* Premium Upsell Modal */
+.upgradeOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+}
+
+.upgradeModal {
+    background: white;
+    border-radius: 24px;
+    max-width: 520px;
+    width: 100%;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    animation: modalSlideIn 0.3s ease-out;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.upgradeHeader {
+    margin-bottom: 1.5rem;
+}
+
+.upgradeIcon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 0.75rem;
+}
+
+.upgradeModal h2 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--color-primary);
+    margin: 0 0 0.5rem 0;
+}
+
+.upgradeSubtitle {
+    color: #64748b;
+    font-size: 1rem;
+    margin: 0;
+}
+
+.upgradeProblem {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+}
+
+.upgradeProblem p {
+    margin: 0;
+    color: #92400e;
+    font-weight: 600;
+}
+
+.upgradeFeatures {
+    text-align: left;
+    margin-bottom: 1.5rem;
+}
+
+.upgradeFeatures h3 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #64748b;
+    margin-bottom: 1rem;
+}
+
+.featureGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.featureItem {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: #f8fafc;
+    border-radius: 12px;
+}
+
+.featureIcon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.featureItem strong {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--color-primary);
+    margin-bottom: 0.25rem;
+}
+
+.featureItem p {
+    margin: 0;
+    font-size: 0.75rem;
+    color: #64748b;
+    line-height: 1.4;
+}
+
+.upgradeProof {
+    background: #f1f5f9;
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+}
+
+.upgradeProof p {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.85rem;
+    color: #475569;
+}
+
+.upgradeProof p:last-child {
+    margin: 0;
+    font-style: italic;
+    font-size: 0.8rem;
+}
+
+.upgradePricing {
+    margin-bottom: 1.5rem;
+}
+
+.priceTag {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.oldPrice {
+    font-size: 1.25rem;
+    color: #94a3b8;
+    text-decoration: line-through;
+}
+
+.currentPrice {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--color-primary);
+}
+
+.currentPrice span {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.priceNote {
+    margin: 0.5rem 0 0 0;
+    font-size: 0.85rem;
+    color: #10b981;
+    font-weight: 600;
+}
+
+.upgradeActions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.upgradeCta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 1rem !important;
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+    background: linear-gradient(135deg, var(--color-primary) 0%, #2d2a8a 100%) !important;
+}
+
+.ctaArrow {
+    font-size: 1.25rem;
+    transition: transform 0.2s;
+}
+
+.upgradeCta:hover .ctaArrow {
+    transform: translateX(4px);
+}
+
+.trialBtn {
+    background: var(--color-yellow);
+    color: var(--color-primary);
+    border: none;
+    padding: 0.875rem 1.5rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.trialBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
+}
+
+.closeBtn {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.closeBtn:hover {
+    color: #64748b;
+}
+
+.upgradeGuarantee {
+    margin: 0;
+    font-size: 0.75rem;
+    color: #94a3b8;
+}
+
+/* Voice listening animation */
+.listening {
+    animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.7;
+        transform: scale(1.1);
+    }
+}
+
+/* Icon button base */
+.iconBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.iconBtn:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+/* Typing indicator */
+.typingIndicator {
+    display: flex;
+    gap: 4px;
+    padding: 1rem 1.25rem;
+    background: white;
+    border-radius: 18px;
+    border-bottom-left-radius: 4px;
+}
+
+.typingIndicator span {
+    width: 8px;
+    height: 8px;
+    background: #94a3b8;
+    border-radius: 50%;
+    animation: typingBounce 1.4s ease-in-out infinite;
+}
+
+.typingIndicator span:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.typingIndicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typingIndicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typingBounce {
+
+    0%,
+    60%,
+    100% {
+        transform: translateY(0);
+    }
+
+    30% {
+        transform: translateY(-4px);
+    }
+}
+
+/* Message time */
+.messageTime {
+    display: block;
+    font-size: 0.7rem;
+    color: #94a3b8;
+    margin-top: 0.5rem;
+    text-align: right;
+}
+
+.message.user .messageTime {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Disclaimer */
+.disclaimer {
+    text-align: center;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    margin: 0.75rem 0 0 0;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .featureGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .upgradeModal {
+        padding: 1.5rem;
+    }
+
+    .currentPrice {
+        font-size: 2rem;
+    }
+
+    .messagesContainer {
+        padding: 1rem;
+    }
+
+    .inputArea {
+        padding: 1rem;
+    }
+}

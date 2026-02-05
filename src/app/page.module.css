@@ -227,6 +227,269 @@
     color: var(--color-primary);
 }
 
+/* Meet Rafiki Section */
+.rafikiSection {
+    background: linear-gradient(135deg, #1A1A5E 0%, #2d2a8a 50%, #1A1A5E 100%);
+    padding: 6rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.rafikiSection::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+}
+
+.rafikiContent {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 4rem;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+@media (max-width: 900px) {
+    .rafikiContent {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+}
+
+.rafikiInfo {
+    color: white;
+}
+
+.rafikiLabel {
+    display: inline-block;
+    background: rgba(255, 215, 0, 0.2);
+    border: 1px solid rgba(255, 215, 0, 0.4);
+    color: var(--color-yellow);
+    padding: 0.5rem 1rem;
+    border-radius: 100px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+.rafikiTitle {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: white;
+    margin-bottom: 0.5rem;
+    line-height: 1.1;
+}
+
+.rafikiName {
+    color: var(--color-yellow);
+}
+
+.rafikiSubtitle {
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.rafikiDescription {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+}
+
+.rafikiFeatures {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2.5rem 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+@media (max-width: 900px) {
+    .rafikiFeatures {
+        grid-template-columns: 1fr;
+        text-align: left;
+    }
+}
+
+.rafikiFeatures li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.rafikiFeatures li span {
+    font-size: 1.25rem;
+}
+
+.rafikiCta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+}
+
+@media (max-width: 900px) {
+    .rafikiCta {
+        align-items: center;
+    }
+}
+
+.rafikiNote {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Rafiki Demo */
+.rafikiDemo {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+}
+
+.rafikiMascot {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mascotEmoji {
+    font-size: 6rem;
+    z-index: 2;
+    animation: bounce 3s ease-in-out infinite;
+}
+
+.mascotGlow {
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, var(--color-yellow) 0%, transparent 70%);
+    border-radius: 50%;
+    opacity: 0.4;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.4;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 0.6;
+    }
+}
+
+.rafikiChat {
+    background: white;
+    border-radius: 24px;
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.chatBubbleAi {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.chatAvatar {
+    width: 32px;
+    height: 32px;
+    background: var(--color-yellow);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.chatBubbleAi strong {
+    display: block;
+    color: var(--color-primary);
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+}
+
+.chatBubbleAi p {
+    margin: 0;
+    color: #374151;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.chatBubbleUser {
+    background: var(--color-primary);
+    color: white;
+    padding: 0.875rem 1.25rem;
+    border-radius: 18px 18px 4px 18px;
+    margin-left: auto;
+    width: fit-content;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    max-width: 85%;
+}
+
+.chatPrompts {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #f0f0f0;
+}
+
+.chatPrompts button {
+    background: #f3f4f6;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.chatPrompts button:hover {
+    background: var(--color-yellow);
+}
+
 /* Stats Section */
 .statsSection {
     background: var(--color-primary);

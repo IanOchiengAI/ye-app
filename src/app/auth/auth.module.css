@@ -51,6 +51,7 @@
     font-weight: var(--font-bold);
     text-decoration: none;
     margin-bottom: var(--space-8);
+    color: var(--color-yellow);
 }
 
 .logoText {
@@ -314,6 +315,15 @@
     color: var(--color-text-muted);
 }
 
+.footerLinkContainer {
+    margin-top: 1rem;
+}
+
+.footerLink {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
 .backLink {
     margin-top: var(--space-4);
     text-align: center;
@@ -329,6 +339,24 @@
 }
 
 /* === Centered Content (Verification/Success) === */
+.devResetBtn {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.8rem;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid currentColor;
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.devResetBtn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
 .centeredContent {
     display: flex;
     align-items: center;
@@ -371,4 +399,33 @@
 
 .verificationCard .loader {
     margin: var(--space-6) auto 0;
+}
+
+.demoNotice {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 8px 12px;
+    background: rgba(26, 26, 94, 0.05);
+    /* Light navy alpha */
+    border-radius: 8px;
+    border: 1px dashed var(--color-primary-soft);
+}
+
+.demoNotice p {
+    font-size: 0.8rem;
+    color: var(--color-primary);
+    margin: 0;
+    font-weight: 500;
+}
+
+.demoBadge {
+    background: var(--color-primary);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
 }

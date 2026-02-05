@@ -41,7 +41,7 @@ export default function LoginPage() {
         return Object.keys(newErrors).length === 0;
     };
 
-    const { signIn } = useAuth();
+    const { signIn, clearMockData } = useAuth();
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
@@ -53,9 +53,11 @@ export default function LoginPage() {
         try {
             await signIn(formData.email, formData.password);
             router.push('/dashboard');
-        } catch (error) {
+        } catch (error: any) {
             console.error('Login error:', error);
-            setErrors({ general: 'Invalid email or password. Please try again.' });
+            setErrors({
+                general: error.message || 'Invalid email or password. Please try again.'
+            });
         } finally {
             setLoading(false);
         }
@@ -115,6 +117,14 @@ export default function LoginPage() {
                     {errors.general && (
                         <div className="alert alert-error">
                             {errors.general}
+                            {(errors.general.includes('mock') || errors.general.includes('exists')) && (
+                                <button
+                                    onClick={() => clearMockData()}
+                                    className={styles.devResetBtn}
+                                >
+                                    Developer: Click to force-clear all mock accounts
+                                </button>
+                            )}
                         </div>
                     )}
 
@@ -218,8 +228,8 @@ export default function LoginPage() {
 
                     <div className={styles.footerText}>
                         <p>Protected by industry-standard security.</p>
-                        <p style={{ marginTop: '1rem' }}>
-                            Interested in mentorship? <Link href="/auth/mentor-signup" style={{ color: 'var(--color-primary)', fontWeight: 600 }}>Apply here</Link>
+                        <p className={styles.footerLinkContainer}>
+                            Interested in mentorship? <Link href="/auth/mentor-signup" className={styles.footerLink}>Apply here</Link>
                         </p>
                     </div>
                 </div>
