@@ -73,6 +73,9 @@ export const viewport: Viewport = {
     userScalable: false,
 };
 
+// Force dynamic rendering to prevent SSR/prerender errors with AuthProvider
+export const dynamic = 'force-dynamic';
+
 export default function RootLayout({
     children,
 }: {
